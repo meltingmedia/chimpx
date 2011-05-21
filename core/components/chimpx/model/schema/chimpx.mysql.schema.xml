@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="chimpx" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" phpdoc-package="chimpx">
+    <object class="chimpxItem" table="chimpx_items" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
+        <field key="description" dbtype="text" phptype="text" null="false" default="" />        
+    </object>    
+</model>
