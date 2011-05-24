@@ -35,7 +35,7 @@ set_time_limit(0);
 define('PKG_NAME','chimpx');
 define('PKG_NAME_LOWER',strtolower(PKG_NAME));
 define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','rc1');
+define('PKG_RELEASE','beta1');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)).'/';
@@ -173,9 +173,6 @@ if (empty($menu)) {
         ),
     ));
     $modx->log(modX::LOG_LEVEL_INFO,'Adding in PHP resolvers...');
-    $vehicle->resolve('php',array(
-        'source' => $sources['resolvers'] . 'resolve.tables.php',
-    ));
     $vehicle->resolve('php',array(
         'source' => $sources['resolvers'] . 'resolve.paths.php',
     ));
