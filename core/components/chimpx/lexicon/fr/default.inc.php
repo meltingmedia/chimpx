@@ -98,6 +98,13 @@ $_lang['chimpx.campaign_generate_text_desc'] = 'Générer une version texte auto
 $_lang['chimpx.boolean_true'] = 'Oui';
 $_lang['chimpx.boolean_false'] = 'Non';
 
+// create campaign errors
+$_lang['chimpx.campaign_campaign_type_ns'] = 'Veuillez choisir un type de campagne (seules les campagnes « traditionnelles » sont supportées pour le moment).';
+$_lang['chimpx.campaign_campaign_subject_ns'] = 'Veuillez indiquer le sujet de votre e-mail.';
+$_lang['chimpx.list_from_email_ns'] = 'Veuillez indiquer une adresse e-mail depuis laquelle envoyer votre e-mail.';
+$_lang['chimpx.list_from_name_ns'] = 'Veuillez indiquer un nom d\'expéditeur.';
+$_lang['chimpx.campaign_url_err'] = 'Vous devez indiquer un ID de ressource valide.';
+
 // update window
 $_lang['chimpx.update_close'] = 'Fermer';
 

@@ -46,6 +46,7 @@ $_lang['chimpx.campaign_err_ns'] = 'Item not specified.';
 $_lang['chimpx.campaign_err_remove'] = 'An error occurred while trying to remove the Item.';
 $_lang['chimpx.campaign_err_save'] = 'An error occurred while trying to save the Item.';
 $_lang['chimpx.campaign_remove'] = 'Delete campaign';
+//$_lang['chimpx.campaign_remove_test'] = 'Delete campaign [[+signature]]';
 $_lang['chimpx.campaign_remove_confirm'] = 'Are you sure you want to remove this campaign?';
 $_lang['chimpx.campaign_send'] = 'Send this campaign';
 $_lang['chimpx.campaign_send_confirm'] = 'Are you sure you want to send this campaign right now?';
@@ -55,7 +56,7 @@ $_lang['chimpx.campaign_replicate'] = 'Replicate this campaign';
 $_lang['chimpx.campaign_replicate_confirm'] = 'Are you sure you want to replicate this campaign and its settings?';
 $_lang['chimpx.campaign_stats'] = 'Campaign stats';
 
-// campaigns grid columns
+// campaigns grid columns labels
 $_lang['chimpx.campaign_list_name'] = 'List';
 $_lang['chimpx.campaign_id'] = 'ID';
 $_lang['chimpx.campaign_name'] = 'Title';
@@ -65,7 +66,7 @@ $_lang['chimpx.campaign_sent'] = 'Sent on';
 $_lang['chimpx.campaign_status'] = 'Status';
 $_lang['chimpx.campaign_recipients'] = 'Recipients';
 
-// create campaign
+// create campaign window
 $_lang['chimpx.campaign_list_select'] = 'Select your list';
 $_lang['chimpx.campaign_list_select_desc'] = 'Select the list to which you want to send the campaign';
 $_lang['chimpx.campaign_campaign_type'] = 'Campaign type';
@@ -77,6 +78,7 @@ $_lang['chimpx.campaign_url'] = 'Resource ID';
 $_lang['chimpx.campaign_url_desc'] = 'Resource ID to be used as HTML content for this campaign.<br />
 <span style="color: red">NOTE: </span>this resource must be published AND browsable from the web';
 
+// campaign types
 $_lang['chimpx.campaigntype_combo_regular'] = 'Regular ol\' campaign';
 $_lang['chimpx.campaigntype_combo_plaintext'] = 'Plain-text';
 $_lang['chimpx.campaigntype_combo_absplit'] = 'A/B split';
@@ -96,9 +98,26 @@ $_lang['chimpx.campaign_generate_text_desc'] = 'Automaticly generate the text ve
 $_lang['chimpx.boolean_true'] = 'Yes';
 $_lang['chimpx.boolean_false'] = 'No';
 
+// create campaign errors
+$_lang['chimpx.campaign_campaign_type_ns'] = 'Please choose a campaign type (actually, only regular campaigns are supported).';
+$_lang['chimpx.campaign_campaign_subject_ns'] = 'Please set a subject for your email campaign.';
+$_lang['chimpx.list_from_email_ns'] = 'Please set an email adress to send your email campaign from.';
+$_lang['chimpx.list_from_name_ns'] = 'Please set a sender name.';
+$_lang['chimpx.campaign_url_err'] = 'You must set a valid resource ID.';
+
 // update window
 $_lang['chimpx.update_close'] = 'Close';
 
+
+// campaign type combo box
+$_lang['chimpx.campaigntype_combo_blank'] = 'Please choose a campaign type';
+$_lang['chimpx.campaigntype_combo_empty'] = 'Please choose a campaign type';
+/*$_lang['chimpx.campaigntype_combo_regular'] = 'Traditionnelle';
+$_lang['chimpx.campaigntype_combo_plaintext'] = 'Texte seulement';
+$_lang['chimpx.campaigntype_combo_absplit'] = 'A/B split';
+$_lang['chimpx.campaigntype_combo_rss'] = 'Campagne RSS';
+$_lang['chimpx.campaigntype_combo_trans'] = 'Campagne trans [?]';
+$_lang['chimpx.campaigntype_combo_auto'] = 'Campagne automatique [?]';*/
 
 // lists grid
 $_lang['chimpx.lists'] = 'All your lists';

@@ -51,11 +51,11 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
         var m = [];
         // for saved campaigns
         if (this.menu.record.status == 'save') {
-            m.push({
+            /*m.push({
                 text: _('chimpx.campaign_update')
                 ,handler: this.updateCampaign
             });
-            m.push('-');
+            m.push('-');*/
             m.push({
                 text: _('chimpx.campaign_send_test')
                 ,handler: this.sendTest
@@ -67,6 +67,7 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
             // @TODO: schredule
             m.push('-');
         }
+
         // for sent campaigns
         /*if (this.menu.record.status == 'sent') {
             m.push({
@@ -75,6 +76,7 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
             });
             m.push('-');
         }*/
+
         // for all campaigns
         m.push({
             text: _('chimpx.campaign_replicate')
@@ -92,7 +94,12 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
             this.windows.createCampaign = MODx.load({
                 xtype: 'chimpx-window-campaign-create'
                 ,listeners: {
-                    'success': {fn:function() { this.refresh(); },scope:this}
+                    'success': {fn:function() {
+                        this.refresh();
+                    },scope:this}
+                    ,'failure': {fn:function() {
+                        MODx.msg.alert();
+                    },scope:this}
                 }
             });
         }
@@ -106,7 +113,9 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
         this.loadWindow(btn,e,{
             xtype: 'chimpx-window-campaign-wizard'
             ,listeners: {
-                'finish': {fn: function(va) { this._install(this.menu.record,va); },scope:this}
+                'finish': {fn: function(va) {
+                    this._install(this.menu.record,va);
+                },scope:this}
             }
         });
     }
@@ -122,7 +131,9 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 xtype: 'chimpx-window-campaign-update'
                 ,record: r
                 ,listeners: {
-                    'success': {fn:function() { this.refresh(); },scope:this}
+                    'success': {fn:function() {
+                        this.refresh();
+                    },scope:this}
                 }
             });
         }
@@ -143,7 +154,9 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 ,id: this.menu.record.id
             }
             ,listeners: {
-                'success': {fn:function(r) { this.refresh(); },scope:this}
+                'success': {fn:function(r) {
+                    this.refresh();
+                },scope:this}
             }
         });
     }
@@ -160,7 +173,9 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 ,id: this.menu.record.id
             }
             ,listeners: {
-                'success': {fn:function(r) { this.refresh(); },scope:this}
+                'success': {fn:function(r) {
+                    this.refresh();
+                },scope:this}
             }
         });
     }
@@ -177,7 +192,16 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 ,id: this.menu.record.id
             }
             ,listeners: {
-                'success': {fn:function(r) { this.refresh(); },scope:this}
+                'success': {fn: function(r) {
+                    this.refresh();
+                    MODx.msg.alert('wouhou','it\'s supposed to be sent!');
+                    //return false;
+                },scope:this}
+                ,'failure': {fn: function(r) {
+                    MODx.msg.alert('oh oh!','Seems like something went wrong dude!');
+                    return false;
+                },scope:this}
+                //
             }
         });
     }
@@ -225,7 +249,7 @@ chimpx.window.CreateCampaign = function(config) {
             ,labelStyle: 'width: 180px'
             ,name: 'list_select'
             ,width: 300
-            ,listWidth: 350
+            ,listWidth: 300
         },{
             xtype: 'chimpx-combo-campaigntype'
             ,fieldLabel: _('chimpx.campaign_campaign_type')
@@ -233,7 +257,8 @@ chimpx.window.CreateCampaign = function(config) {
             ,labelStyle: 'width: 180px'
             ,name: 'campaign_type'
             ,width: 300
-            ,listWidth: 350
+            ,listWidth: 300
+            ,allowBlank: false
         },{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_subject')
@@ -243,7 +268,7 @@ chimpx.window.CreateCampaign = function(config) {
             ,id: 'chimpx-'+this.ident+'-subject'
             ,width: 300
             ,allowBlank: false
-            //,description: 'i am little helper!! DO THIS!'
+            //,blankText: _('chimpx.campaign_campaign_subject_ns')
         },{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_title')
@@ -254,6 +279,7 @@ chimpx.window.CreateCampaign = function(config) {
             ,width: 300
         },{
             xtype: 'textfield'
+            //xtype: 'chimpx-choose-resource'
             ,fieldLabel: _('chimpx.campaign_url')
             ,description: _('chimpx.campaign_url_desc')
             ,labelStyle: 'width: 180px'
@@ -288,7 +314,7 @@ chimpx.window.CreateCampaign = function(config) {
             ,id: 'chimpx-'+this.ident+'-from_email'
             ,width: 300
             ,allowBlank: false
-        },{
+        }/*,{
             //xtype: 'combo-boolean'
             xtype: 'chimpx-boolean'
             ,fieldLabel: _('chimpx.campaign_generate_text')
@@ -297,7 +323,8 @@ chimpx.window.CreateCampaign = function(config) {
             ,name: 'generate_text'
             ,id: 'chimpx-'+this.ident+'-generate_text'
             ,width: 300
-        }]
+        }*/]
+        // wizard buttons
         /*,buttons: [{
             text: config.cancelBtnText || _('cancel')
             ,scope: this
@@ -496,7 +523,7 @@ chimpx.combo.CampaignTypes = function(config) {
         ,mode : 'local'
         ,typeAhead: true
         ,width : 150
-        ,listWidth: 200
+        ,listWidth: 150
         ,editable: false
         ,blankText: _('chimpx.campaigntype_combo_blank')
         ,emptyText: _('chimpx.campaigntype_combo_empty')
@@ -505,16 +532,14 @@ chimpx.combo.CampaignTypes = function(config) {
             fields : ['id', 'campaign-type']
             ,data : [
                 ['regular', _('chimpx.campaigntype_combo_regular')]
-                ,['plaintext', _('chimpx.campaigntype_combo_plaintext')]
+                /*,['plaintext', _('chimpx.campaigntype_combo_plaintext')]
                 ,['absplit', _('chimpx.campaigntype_combo_absplit')]
                 ,['rss', _('chimpx.campaigntype_combo_rss')]
                 ,['trans', _('chimpx.campaigntype_combo_trans')]
-                ,['auto', _('chimpx.campaigntype_combo_auto')]
+                ,['auto', _('chimpx.campaigntype_combo_auto')]*/
             ]
         })
-        //,url: Cours.config.connector_url
         ,baseParams: {
-            //action: 'mgr/questions/getlist'
             combo: true
         }
     });
@@ -556,7 +581,8 @@ Ext.extend(chimpx.combo.to_name, MODx.combo.ComboBox);
 Ext.reg('chimpx-combo-listlists', chimpx.combo.to_name);
 */
 
-// booleans (used for generate_text) @TODO: see xcheckbox wouldn't fit better
+// booleans (used for generate_text) @TODO: see if xcheckbox wouldn't fit better
+/*
 chimpx.combo.yesno = function(config) {
     config = config || {};
     Ext.applyIf(config, {
@@ -593,24 +619,29 @@ chimpx.combo.yesno = function(config) {
 };
 Ext.extend(chimpx.combo.yesno, MODx.combo.ComboBox);
 Ext.reg('chimpx-boolean', chimpx.combo.yesno);
+*/
+
 
 // @TODO: target resource with trigerField
 /*
-MODx.ChangeParentField = function(config) {
+chimpx.chooseResource = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         triggerAction: 'all'
         ,editable: false
         ,readOnly: false
-        ,formpanel: 'modx-panel-resource'
+        //,formpanel: 'modx-panel-resource'
+        //,formpanel: 'chimpx-window-campaign-create'
+        ,formpanel: 'chimpx-panel-home'
     });
-    MODx.ChangeParentField.superclass.constructor.call(this,config);
+    chimpx.chooseResource.superclass.constructor.call(this,config);
     this.config = config;
     this.on('click',this.onTriggerClick,this);
     this.addEvents({ end: true });
     this.on('end',this.end,this);
 };
-Ext.extend(MODx.ChangeParentField,Ext.form.TriggerField,{
+
+Ext.extend(chimpx.chooseResource,Ext.form.TriggerField,{
     oldValue: false
     ,oldDisplayValue: false
     ,end: function(p) {
@@ -706,5 +737,5 @@ Ext.extend(MODx.ChangeParentField,Ext.form.TriggerField,{
         return true;
     }
 });
-Ext.reg('modx-field-parent-change',MODx.ChangeParentField);
+Ext.reg('chimpx-choose-resource',chimpx.chooseResource);
 */

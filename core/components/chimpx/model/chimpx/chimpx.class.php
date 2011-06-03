@@ -50,6 +50,7 @@ class chimpx {
 
         //require_once($this->config['modelPath'].'mailchimp/MCAPI.class.php');
 
+        // Let's load the MailChimp API class
         if (empty($this->mcapi)) {
             if ($this->modx->loadClass('mailchimp.MCAPI',$this->config['modelPath'],true,true)) {
                 $this->mcapi = new MCAPI($this->modx,$config);
@@ -143,4 +144,5 @@ class chimpx {
         }
         return $chunk;
     }
+
 }
