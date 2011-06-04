@@ -25,9 +25,16 @@
  * @package chimpx
  * @subpackage lexicon
  */
-$_lang['prop_chimpx.limit_desc'] = 'The number of Items to limit per page.';
+// listCampaigns snippet
+$_lang['prop_chimpx.limit_desc'] = 'Le nombre de campagnes à afficher par page.';
 $_lang['prop_chimpx.outputseparator_desc'] = 'A string to separate each row with.';
-$_lang['prop_chimpx.sortby_desc'] = 'The field to sort by.';
-$_lang['prop_chimpx.sortdir_desc'] = 'The direction to sort by.';
-$_lang['prop_chimpx.tpl_desc'] = 'The chunk to use for each row of Items.';
-$_lang['prop_chimpx.toplaceholder_desc'] = 'If set, will output the content to the placeholder specified in this property, rather than outputting the content directly.';
+$_lang['prop_chimpx.tpl_desc'] = 'Le chunk à utiliser pour chaque campagne.';
+$_lang['prop_chimpx.offset_desc'] = 'The number of Items to limit per page.';
+$_lang['prop_chimpx.listId_desc'] = 'L\'ID de la liste depuis laquelle lister les campagnes.';
+$_lang['prop_chimpx.status_desc'] = 'Le status des campagnes que vous souhaitez afficher. Les status disponibles sont: "envoyé", "sauvegardé", "en pause", "programmé", "en cours d\'envoi", "" (tous).';
+
+// chimpxSubscribe snippet
+$_lang['prop_chimpx.formTpl_desc'] = 'Le chunk contenant le formulaire d\'inscription.';
+$_lang['prop_chimpx.debug_desc'] = 'Activer les messages de debug.';
+$_lang['prop_chimpx.errorMsg_desc'] = 'Le message affiché à vos visiteurs lors de l\'échec de leur inscription.';
+$_lang['prop_chimpx.successMsg_desc'] = 'Le message affiché à vos visiteurs lors du succès de leur inscription.';

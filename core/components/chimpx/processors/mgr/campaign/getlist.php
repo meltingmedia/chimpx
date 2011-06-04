@@ -35,21 +35,7 @@ $limit = $modx->getOption('limit',$_REQUEST,20);
 
 // filters to apply to the query
 $filters = array();
-/*
-    $filters['campaign_id'] = ;
-    $filters['list_id'] = ;
-    $filters['folder_id'] = ;
-    $filters['template_id'] = ;
-    $filters['status'] = ;
-    $filters['type'] = ;
-    $filters['from_name'] = ;
-    $filters['from_email'] = ;
-    $filters['title'] = ;
-    $filters['subject'] = ;
-    $filters['sendtime_start'] = ;
-    $filters['sendtime_end'] = ;
-    $filters['exact'] = ;
-*/
+
 $campaigns = $api->campaigns($filters,$start,$limit);
 
 if ($api->errorCode){
@@ -60,7 +46,6 @@ if ($api->errorCode){
 
     $list = array();
     foreach ($campaigns['data'] as $campaign) {
-        // @TODO: support nested arrays
         $list[] = $campaign;
     }
     return $this->outputArray($list,$count);

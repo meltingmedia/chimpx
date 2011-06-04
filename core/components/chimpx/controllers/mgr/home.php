@@ -26,7 +26,7 @@
  * @subpackage controllers
  */
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/lists.grid.js');
-$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/campaign.wizard.js');
+//$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/campaign.wizard.js');
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/campaigns.grid.js');
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/home.panel.js');
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/sections/home.js');

@@ -51,11 +51,11 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
         var m = [];
         // for saved campaigns
         if (this.menu.record.status == 'save') {
-            /*m.push({
+            m.push({
                 text: _('chimpx.campaign_update')
                 ,handler: this.updateCampaign
             });
-            m.push('-');*/
+            m.push('-');
             m.push({
                 text: _('chimpx.campaign_send_test')
                 ,handler: this.sendTest
@@ -64,18 +64,10 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 text: _('chimpx.campaign_send')
                 ,handler: this.sendCampaign
             });
-            // @TODO: schredule
             m.push('-');
         }
 
         // for sent campaigns
-        /*if (this.menu.record.status == 'sent') {
-            m.push({
-                text: _('chimpx.campaign_stats')
-                ,handler: ''
-            });
-            m.push('-');
-        }*/
 
         // for all campaigns
         m.push({
@@ -215,7 +207,13 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 xtype: 'chimpx-window-campaign-send_test'
                 ,record: r
                 ,listeners: {
-                    'success': {fn:function() { this.refresh(); },scope:this}
+                    'success': {fn:function() {
+                        MODx.msg.alert();
+                        this.refresh();
+                    },scope:this}
+                    ,'failure': {fn:function() {
+                        MODx.msg.alert();
+                    },scope:this}
                 }
             });
         }
@@ -324,20 +322,6 @@ chimpx.window.CreateCampaign = function(config) {
             ,id: 'chimpx-'+this.ident+'-generate_text'
             ,width: 300
         }*/]
-        // wizard buttons
-        /*,buttons: [{
-            text: config.cancelBtnText || _('cancel')
-            ,scope: this
-            ,handler: function() { this.hide(); }
-        },{
-            text: config.saveBtnText || _('save')
-            ,scope: this
-            ,handler: function() { this.submit(false); }
-        },{
-            text: config.saveBtnText || _('save_and_close')
-            ,scope: this
-            ,handler: this.submit
-        }]*/
     });
     chimpx.window.CreateCampaign.superclass.constructor.call(this,config);
 };
@@ -465,6 +449,7 @@ chimpx.window.sendTest = function(config) {
         },{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_send_test_email')
+            ,description: _('chimpx.campaign_send_test_email_desc')
             ,name: 'test_email'
             ,id: 'chimpx-'+this.ident+'-test_email'
             ,dataIndex: 'test_email'

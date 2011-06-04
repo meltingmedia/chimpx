@@ -20,7 +20,7 @@
  * @package chimpx
  */
 /**
- * Properties for the chimpx snippet.
+ * Properties for the chimpx listCampaigns snippet.
  *
  * @package chimpx
  * @subpackage build
@@ -31,23 +31,7 @@ $properties = array(
         'desc' => 'prop_chimpx.tpl_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => 'Item',
-        'lexicon' => 'chimpx:properties',
-    ),
-    array(
-        'name' => 'sortBy',
-        'desc' => 'prop_chimpx.sortby_desc',
-        'type' => 'textfield',
-        'options' => '',
-        'value' => 'name',
-        'lexicon' => 'chimpx:properties',
-    ),
-    array(
-        'name' => 'sortDir',
-        'desc' => 'prop_chimpx.sortdir_desc',
-        'type' => 'textfield',
-        'options' => '',
-        'value' => 'ASC',
+        'value' => 'campaignTpl',
         'lexicon' => 'chimpx:properties',
     ),
     array(
@@ -67,23 +51,29 @@ $properties = array(
         'lexicon' => 'chimpx:properties',
     ),
     array(
-        'name' => 'toPlaceholder',
-        'desc' => 'prop_chimpx.toplaceholder_desc',
-        'type' => 'textfield',
-        'options' => '',
-        'value' => true,
-        'lexicon' => 'chimpx:properties',
-    ),
-/*
-    array(
-        'name' => '',
-        'desc' => 'prop_chimpx.',
+        'name' => 'offset',
+        'desc' => 'prop_chimpx.offset_desc',
         'type' => 'textfield',
         'options' => '',
         'value' => '',
         'lexicon' => 'chimpx:properties',
     ),
-    */
+    array(
+        'name' => 'listId',
+        'desc' => 'prop_chimpx.listId_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'chimpx:properties',
+    ),
+    array(
+        'name' => 'status',
+        'desc' => 'prop_chimpx.status_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'chimpx:properties',
+    ),
 );
 
 return $properties;

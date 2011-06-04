@@ -48,8 +48,6 @@ class chimpx {
             'processorsPath' => $corePath.'processors/',
         ),$config);
 
-        //require_once($this->config['modelPath'].'mailchimp/MCAPI.class.php');
-
         // Let's load the MailChimp API class
         if (empty($this->mcapi)) {
             if ($this->modx->loadClass('mailchimp.MCAPI',$this->config['modelPath'],true,true)) {
@@ -64,6 +62,15 @@ class chimpx {
         $this->modx->addPackage('chimpx',$this->config['modelPath']);
         $this->modx->lexicon->load('chimpx:default');
     }
+
+    /*public function getApi() {
+        if (!$this->modx->loadClass('mailchimp.MCAPI',$this->config['modelPath'],true,true)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Chimpx] - unable to load MailChimp API class');
+            return '[Chimpx] - unable to load MailChimp API class';
+        }
+        $this->mcapi = new MCAPI($this->modx,$this->config);
+        return $this->mcapi;
+    }*/
 
     /**
      * Initializes chimpx into different contexts.

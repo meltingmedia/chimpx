@@ -39,19 +39,21 @@ $_lang['chimpx_help'] = 'Help';
 
 // campaigns grid
 $_lang['chimpx.campaigns'] = 'All your campaigns';
+
+$_lang['chimpx.campaign_err_nf'] = 'Campaign not found.';
+$_lang['chimpx.campaign_err_ns'] = 'Campaign not specified.';
+$_lang['chimpx.campaign_err_remove'] = 'An error occurred while trying to remove the campaing.';
+$_lang['chimpx.campaign_err_save'] = 'An error occurred while trying to save the campaign.';
+
 $_lang['chimpx.campaign_create'] = 'Create a new campaign';
-$_lang['chimpx.campaign_err_ae'] = 'An Item already exists with that name.';
-$_lang['chimpx.campaign_err_nf'] = 'Item not found.';
-$_lang['chimpx.campaign_err_ns'] = 'Item not specified.';
-$_lang['chimpx.campaign_err_remove'] = 'An error occurred while trying to remove the Item.';
-$_lang['chimpx.campaign_err_save'] = 'An error occurred while trying to save the Item.';
 $_lang['chimpx.campaign_remove'] = 'Delete campaign';
-//$_lang['chimpx.campaign_remove_test'] = 'Delete campaign [[+signature]]';
 $_lang['chimpx.campaign_remove_confirm'] = 'Are you sure you want to remove this campaign?';
 $_lang['chimpx.campaign_send'] = 'Send this campaign';
 $_lang['chimpx.campaign_send_confirm'] = 'Are you sure you want to send this campaign right now?';
 $_lang['chimpx.campaign_update'] = 'Update this campaign';
 $_lang['chimpx.campaign_send_test'] = 'Test this campaign';
+$_lang['chimpx.campaign_send_test_email'] = 'Send test to';
+$_lang['chimpx.campaign_send_test_email_desc'] = 'Email address to send the test to';
 $_lang['chimpx.campaign_replicate'] = 'Replicate this campaign';
 $_lang['chimpx.campaign_replicate_confirm'] = 'Are you sure you want to replicate this campaign and its settings?';
 $_lang['chimpx.campaign_stats'] = 'Campaign stats';
@@ -78,14 +80,6 @@ $_lang['chimpx.campaign_url'] = 'Resource ID';
 $_lang['chimpx.campaign_url_desc'] = 'Resource ID to be used as HTML content for this campaign.<br />
 <span style="color: red">NOTE: </span>this resource must be published AND browsable from the web';
 
-// campaign types
-$_lang['chimpx.campaigntype_combo_regular'] = 'Regular ol\' campaign';
-$_lang['chimpx.campaigntype_combo_plaintext'] = 'Plain-text';
-$_lang['chimpx.campaigntype_combo_absplit'] = 'A/B split';
-$_lang['chimpx.campaigntype_combo_rss'] = 'RSS driven';
-$_lang['chimpx.campaigntype_combo_trans'] = 'Trans [?]';
-$_lang['chimpx.campaigntype_combo_auto'] = 'AutoResponder';
-
 $_lang['chimpx.list_to_name'] = 'To name';
 $_lang['chimpx.list_to_name_desc'] = 'Include the recipient\'s name in the message using merge tags to make it more personal and help avoid spam filters.<br />
 example: *|FNAME|* *|LNAME|* will show "To: Bob Smith" in the email instead of "To: bob@example.com"';
@@ -108,16 +102,16 @@ $_lang['chimpx.campaign_url_err'] = 'You must set a valid resource ID.';
 // update window
 $_lang['chimpx.update_close'] = 'Close';
 
-
 // campaign type combo box
 $_lang['chimpx.campaigntype_combo_blank'] = 'Please choose a campaign type';
 $_lang['chimpx.campaigntype_combo_empty'] = 'Please choose a campaign type';
-/*$_lang['chimpx.campaigntype_combo_regular'] = 'Traditionnelle';
-$_lang['chimpx.campaigntype_combo_plaintext'] = 'Texte seulement';
+
+$_lang['chimpx.campaigntype_combo_regular'] = 'Regular ol\' campaign';
+$_lang['chimpx.campaigntype_combo_plaintext'] = 'Plain-text';
 $_lang['chimpx.campaigntype_combo_absplit'] = 'A/B split';
-$_lang['chimpx.campaigntype_combo_rss'] = 'Campagne RSS';
-$_lang['chimpx.campaigntype_combo_trans'] = 'Campagne trans [?]';
-$_lang['chimpx.campaigntype_combo_auto'] = 'Campagne automatique [?]';*/
+$_lang['chimpx.campaigntype_combo_rss'] = 'RSS driven';
+$_lang['chimpx.campaigntype_combo_trans'] = 'Trans [?]';
+$_lang['chimpx.campaigntype_combo_auto'] = 'AutoResponder';
 
 // lists grid
 $_lang['chimpx.lists'] = 'All your lists';
@@ -128,30 +122,9 @@ $_lang['chimpx.list_name'] = 'Name';
 $_lang['chimpx.list_date_created'] = 'Created on';
 $_lang['chimpx.list_email_type_option'] = 'HTML + text';
 $_lang['chimpx.list_use_awesomebar'] = 'Awesome Bar';
-$_lang['chimpx.list_list_rating'] = 'Rating';
-
-$_lang['chimpx.list_create'] = 'Create a new list'; // nop
-$_lang['chimpx.list_remove'] = 'Delete this list'; // nop
-$_lang['chimpx.list_remove_confirm'] = 'Are you sure you want to delete this list? There\'s no turning back!'; // nop
-$_lang['chimpx.list_update'] = 'Update this list'; // nop
-
+$_lang['chimpx.list_list_rating'] = 'List rating';
+$_lang['chimpx.list_member_count'] = 'Subscribers';
 
 // lists combo box
 $_lang['chimpx.list_combo_blank'] = 'Choose a list';
 $_lang['chimpx.list_combo_empty'] = 'Choose a list';
-/*
-
-$_lang[''] = '';
-
-
-$_lang['chimpx.items'] = 'All your campaigns';
-$_lang['chimpx.item_create'] = 'Create a new campaign';
-$_lang['chimpx.item_err_ae'] = 'An Item already exists with that name.';
-$_lang['chimpx.item_err_nf'] = 'Item not found.';
-$_lang['chimpx.item_err_ns'] = 'Item not specified.';
-$_lang['chimpx.item_err_remove'] = 'An error occurred while trying to remove the Item.';
-$_lang['chimpx.item_err_save'] = 'An error occurred while trying to save the Item.';
-$_lang['chimpx.item_remove'] = 'Remove Item'; // not revelant
-$_lang['chimpx.item_remove_confirm'] = 'Are you sure you want to remove this Item?'; // not revelant
-$_lang['chimpx.item_update'] = 'More infos about this campaign';
-*/

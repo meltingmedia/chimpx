@@ -52,7 +52,8 @@ $_lang['chimpx.campaign_send'] = 'Envoyer cette campagne';
 $_lang['chimpx.campaign_send_confirm'] = 'Êtes-vous sûr de vouloir envoyer cette campagne maintenant ?';
 $_lang['chimpx.campaign_update'] = 'Modifier cette campagne';
 $_lang['chimpx.campaign_send_test'] = 'Tester cette campagne';
-$_lang['chimpx.campaign_send_test_email'] = 'envoyer le test à l\'adresse';
+$_lang['chimpx.campaign_send_test_email'] = 'Envoyer le test à';
+$_lang['chimpx.campaign_send_test_email_desc'] = 'Adresse e-mail à laquelle envoyer le test';
 $_lang['chimpx.campaign_replicate'] = 'Dupliquer cette campagne';
 $_lang['chimpx.campaign_replicate_confirm'] = 'Êtes-vous sûr de vouloir dupliquer cette campagne et ses paramètres ?';
 $_lang['chimpx.campaign_stats'] = 'Stats de cette campagne';
@@ -79,13 +80,6 @@ $_lang['chimpx.campaign_url'] = 'ID de la ressource';
 $_lang['chimpx.campaign_url_desc'] = 'ID de la ressource à utiliser comme model de newsletter.<br />
 <span style="color: red">NOTE: </span>cette ressource doit être publiée ET accessible depuis internet';
 
-$_lang['chimpx.campaigntype_combo_regular'] = 'Campagne normale';
-$_lang['chimpx.campaigntype_combo_plaintext'] = 'Texte';
-$_lang['chimpx.campaigntype_combo_absplit'] = 'A/B split';
-$_lang['chimpx.campaigntype_combo_rss'] = 'RSS';
-$_lang['chimpx.campaigntype_combo_trans'] = 'Trans [?]';
-$_lang['chimpx.campaigntype_combo_auto'] = 'AutoResponder';
-
 $_lang['chimpx.list_to_name'] = 'Destinataire';
 $_lang['chimpx.list_to_name_desc'] = 'Inclue le nom du destinataire dans le message en utilisant les « merge tags » pour rendre l\'e-mail plus personnel et pour aider à passer les filtres anti-spam.<br />
 exemple: *|FNAME|* *|LNAME|* affichera "Pour: Bob Smith" dans l\'e-mail au lieu de "Pour: bob@example.com"';
@@ -111,16 +105,18 @@ $_lang['chimpx.update_close'] = 'Fermer';
 // campaign type combo box
 $_lang['chimpx.campaigntype_combo_blank'] = 'Veuillez indiquer un type de campagne';
 $_lang['chimpx.campaigntype_combo_empty'] = 'Veuillez indiquer un type de campagne';
+
 $_lang['chimpx.campaigntype_combo_regular'] = 'Traditionnelle';
 $_lang['chimpx.campaigntype_combo_plaintext'] = 'Texte seulement';
 $_lang['chimpx.campaigntype_combo_absplit'] = 'A/B split';
 $_lang['chimpx.campaigntype_combo_rss'] = 'Campagne RSS';
 $_lang['chimpx.campaigntype_combo_trans'] = 'Campagne trans [?]';
-$_lang['chimpx.campaigntype_combo_auto'] = 'Campagne automatique [?]';
+$_lang['chimpx.campaigntype_combo_auto'] = 'Répondeur automatique';
 
 // lists grid
 $_lang['chimpx.lists'] = 'Toutes vos listes';
-$_lang['chimpx.lists_intro_msg'] = 'Visionnez vos listes MailChimp. Si vous souhaitez créer une nouvelle liste, vous devez vous rendre sur <a href="//login.mailchimp.com" target="_blank">MailChimp</a>.'; $_lang['chimpx.list_id'] = 'ID';
+$_lang['chimpx.lists_intro_msg'] = 'Visionnez vos listes MailChimp. Si vous souhaitez créer une nouvelle liste, vous devez vous rendre sur <a href="//login.mailchimp.com" target="_blank">MailChimp</a>.';
+$_lang['chimpx.list_id'] = 'ID';
 $_lang['chimpx.list_web_id'] = 'Web ID';
 $_lang['chimpx.list_name'] = 'Nom';
 $_lang['chimpx.list_date_created'] = 'Créée le';

@@ -111,6 +111,6 @@ if ($api->errorCode) {
     $modx->log(modX::LOG_LEVEL_ERROR, 'error n#: '. $api->errorCode .' message: '. $api->errorMessage);
     return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
 } else {
-    $modx->log(modX::LOG_LEVEL_ERROR, 'Campaign ID '. $chimpXcreateCampaign .' created.');
-    return $modx->error->success('Successfully accomplished master!');
+    //$modx->log(modX::LOG_LEVEL_ERROR, 'Campaign ID '. $chimpXcreateCampaign .' created.');
+    return $modx->error->success('');
 }

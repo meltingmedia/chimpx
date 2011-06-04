@@ -1,5 +1,5 @@
-Changelog for chimpx.
+Changelog for Chimpx.
 
-chimpx 1.0.0
-==============
+Chimpx 0.0.1 beta1
+========================================
 - Initial release.

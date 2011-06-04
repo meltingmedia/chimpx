@@ -21,57 +21,39 @@
  */
 /**
  * Get a list of MailChimp lists
+ * http://apidocs.mailchimp.com/1.3/lists.func.php
  *
  * @package chimpx
  * @subpackage processors
  */
 
-$isLimit = !empty($_REQUEST['limit']);
+$api = new MCAPI($modx->getOption('chimpx_apikey'));
+
 $start = $modx->getOption('start',$_REQUEST,0);
 $limit = $modx->getOption('limit',$_REQUEST,20);
 
-
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
-
-$mcLists = $api->lists('',$start,$limit);
-
-if ($api->errorCode){
-    $modx->log(modX::LOG_LEVEL_ERROR, 'error n#: '. $api->errorCode .' message: '. $api->errorMessage);
-    return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
-} else {
-
-    $count = $mcLists['total'];
-
-    $list = array();
-    foreach ($mcLists['data'] as $mcList) {
-
-        $mcList['member_count'] = $mcList['stats']['member_count'];
-        unset($mcList['stats']['member_count']);
-
-        $list[] = $mcList;
-    }
-    return $this->outputArray($list,$count);
-}
+// filters to apply to the query
 $filters = array();
-    $filters['exact'] = $scriptProperties['exact'];
 
-$mcLists = $api->lists($filter,$start,$limit);
+$mcLists = $api->lists($filters,$start,$limit);
 
 if ($api->errorCode){
     $modx->log(modX::LOG_LEVEL_ERROR, 'Uhoh, error n#: '. $api->errorCode .' message: '. $api->errorMessage);
     return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
 } else {
-
     $count = $mcLists['total'];
 
     $list = array();
     foreach ($mcLists['data'] as $mcList) {
-// @TODO: grab infos from stats & modules arrays
-/*
-        $mcList['member_count'] = $mcList['stats']['member_count'];
-        unset($mcList['stats']['member_count']);
-*/
         $list[] = $mcList;
     }
+
+    // grab the subscribers count
+    foreach ($mcLists['data'] as $mcList) {
+        $mcList['member_count'] = $mcList['stats']['member_count'];
+        unset($mcList['stats']['member_count']);
+        $list[] = $mcList;
+    }
+
     return $this->outputArray($list,$count);
 }
