@@ -27,7 +27,7 @@
  * @subpackage processors
  */
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
 $start = $modx->getOption('start',$_REQUEST,0);
 $limit = $modx->getOption('limit',$_REQUEST,20);

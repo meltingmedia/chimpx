@@ -35,7 +35,7 @@ class MCAPI {
         $this->modx =& $chimpx->modx;
 
         $this->config = array_merge(array(
-            'apikey' => $this->modx->getOption('chimpx_apikey',null,''),
+            'apikey' => $this->modx->getOption('chimpx.apikey',null,''),
             //'host' => $this->modx->getOption('rampart.honeypot.blhost',null,'dnsbl.httpbl.org'),
         ),$config);
     }*/

@@ -150,6 +150,10 @@ if (!is_array($settings)) {
         $vehicle = $builder->createVehicle($setting,$attributes);
         $builder->putVehicle($vehicle);
     }
+    $vehicle->resolve('php',array(
+        'source' => $sources['resolvers'] . 'resolve.setupoptions.php',
+    ));
+    $builder->putVehicle($vehicle);
     $modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($settings).' System Settings.');
 }
 unset($settings,$setting,$attributes);
@@ -185,9 +189,9 @@ unset($vehicle,$menu);
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
-    //'setup-options' => array(
-        //'source' => $sources['build'].'setup.options.php',
-    //),
+    'setup-options' => array(
+        'source' => $sources['build'].'setup.options.php',
+    ),
 ));
 $modx->log(modX::LOG_LEVEL_INFO,'Added package attributes and setup options.');
 

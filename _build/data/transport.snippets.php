@@ -30,12 +30,23 @@ $snippets = array();
 $snippets[0]= $modx->newObject('modSnippet');
 $snippets[0]->fromArray(array(
     'id' => 0,
-    'name' => 'chimpx',
-    'description' => 'Displays Items.',
-    'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/snippet.chimpx.php'),
+    'name' => 'chimpxSubscribe',
+    'description' => 'Create a subscription form for your MailChimp lists.',
+    'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/chimpxSubscribe.php'),
 ),'',true,true);
-$properties = include $sources['build'].'properties/properties.chimpx.php';
+$properties = include $sources['build'].'properties/properties.chimpxSubscribe.php';
 $snippets[0]->setProperties($properties);
+unset($properties);
+
+$snippets[1]= $modx->newObject('modSnippet');
+$snippets[1]->fromArray(array(
+    'id' => 1,
+    'name' => 'listCampaigns',
+    'description' => 'List your MailChimp campaigns.',
+    'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/listCampaigns.php'),
+),'',true,true);
+$properties = include $sources['build'].'properties/properties.listCampaigns.php';
+$snippets[1]->setProperties($properties);
 unset($properties);
 
 return $snippets;

@@ -11,14 +11,14 @@
 $chimpx = $modx->getService('chimpx','chimpx',$modx->getOption('chimpx.core_path',null,$modx->getOption('core_path').'components/chimpx/').'model/chimpx/',$scriptProperties);
 if (!($chimpx instanceof chimpx)) return '';
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
-$listId = isset($listId) ? $listId : '';
-$debug = isset($debug) ? $debug : false;
-$formTpl = isset($formTpl) ? $formTpl : null;
+$listId = $modx->getOption('listId',$scriptProperties,'');
+$debug = $modx->getOption('debug',$scriptProperties,false);
+$formTpl = $modx->getOption('formTpl',$scriptProperties,'formTpl');
 //@TODO: i18n with lexicons
-$errorMsg = isset($errorMsg) ? $errorMsg: 'There was a problem subscribing you.';
-$successMsg = isset($successMsg) ? $successMsg : 'You were successfully subscribed';
+$errorMsg = $modx->getOption('errorMsg',$scriptProperties,'There was a problem subscribing you.');
+$successMsg = $modx->getOption('successMsg',$scriptProperties,'You were successfully subscribed.');
 
 if ($formTpl != null && $modx->getChunk($formTpl) != null) {
     if (isset($_POST['subscribe'])) {

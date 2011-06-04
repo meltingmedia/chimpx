@@ -6,12 +6,12 @@
  */
 
 $chimpx = $modx->getService('chimpx','chimpx',$modx->getOption('chimpx.core_path',null,$modx->getOption('core_path').'components/chimpx/').'model/chimpx/',$scriptProperties);
-if (!($chimpx instanceof chimpx)) return 'phoque';
+if (!($chimpx instanceof chimpx)) return '';
 
 $tpl = $modx->getOption('tpl',$scriptProperties,'campaignTpl');
 $limit = $modx->getOption('limit',$scriptProperties,25);
 $offset = $modx->getOption('offset',$scriptProperties,0);
-$listId = $scriptProperties['list_id'];
+$listId = $modx->getOption('listId',$scriptProperties,'');
 $status = $modx->getOption('status',$scriptProperties,'');
 $outputSeparator = $modx->getOption('outputSeparator',$scriptProperties,"\n");
 
@@ -20,7 +20,7 @@ if (!$listId) {
     return 'Set a list ID first!';
 }
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
 // filters to apply to the query
 $filters = array();

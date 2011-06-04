@@ -20,22 +20,26 @@
  * @package chimpx
  */
 /**
- * Loads system settings into build
+ * Build the setup options form.
  *
  * @package chimpx
  * @subpackage build
  */
 
-$settings = array();
+$values = array(
+    'apikey' => '',
+);
+switch ($options[xPDOTransport::PACKAGE_ACTION]) {
+    case xPDOTransport::ACTION_INSTALL:
+    case xPDOTransport::ACTION_UPGRADE:
+        $setting = $modx->getObject('modSystemSetting',array('key' => 'chimpx.apikey'));
+        if ($setting != null) { $values['apikey'] = $setting->get('value'); }
+        unset($setting);
+    break;
+    case xPDOTransport::ACTION_UNINSTALL: break;
+}
+$output = '<label for="chimpx-apikey">MailChimp API Key:</label>
+<input type="text" name="apikey" id="chimpx-apikey" width="300" value="'.$values['apikey'].'" />
+<br /><br />';
 
-$settings['chimpx.apikey']= $modx->newObject('modSystemSetting');
-$settings['chimpx.apikey']->fromArray(array(
-    'key' => 'chimpx.apikey',
-    'value' => '',
-    'xtype' => 'text-password',
-    'namespace' => 'chimpx',
-    'area' => '',
-),'',true,true);
-
-
-return $settings;
+return $output;

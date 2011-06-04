@@ -30,7 +30,7 @@
 $campaignId = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
 $emails = isset($scriptProperties['test_email']) ? array($scriptProperties['test_email']) : '';
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
 $api->campaignSendTest($campaignId, $emails);
 

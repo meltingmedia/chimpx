@@ -27,7 +27,7 @@
  * @subpackage processors
  */
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
 // campaign type
 if (!empty($scriptProperties['campaign_type'])) {

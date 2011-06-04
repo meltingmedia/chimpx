@@ -29,7 +29,7 @@
 
 $cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
 $deleteCampaign = $api->campaignDelete($cid);
 

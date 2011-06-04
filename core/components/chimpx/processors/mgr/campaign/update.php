@@ -35,7 +35,7 @@ if (!empty($scriptProperties['id'])) {
     return $modx->error->failure($msg);
 }
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
 $cid = $scriptProperties['id'];
 $name = $scriptProperties['name'];

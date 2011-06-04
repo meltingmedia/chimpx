@@ -27,7 +27,7 @@
  * @subpackage processors
  */
 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
+$api = new MCAPI($modx->getOption('chimpx.apikey'));
 
 // grid pagination
 $start = $modx->getOption('start',$_REQUEST,0);
