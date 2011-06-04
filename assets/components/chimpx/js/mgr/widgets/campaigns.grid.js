@@ -339,7 +339,7 @@ chimpx.window.updateCampaign = function(config) {
         ,width: 475
         ,url: chimpx.config.connector_url
         ,action: 'mgr/campaign/update'
-        ,html: '<p>Just a test</p>'
+        //,html: '<p>Just a test</p>'
         ,fields: [{
             fieldLabel: 'id'
             ,xtype: 'textfield'
@@ -348,7 +348,7 @@ chimpx.window.updateCampaign = function(config) {
             ,dataIndex: 'id'
             ,editable: false
             ,hidden: true
-        },{
+        }/*,{
             xtype: 'chimpx-combo-listlists'
             ,fieldLabel: _('chimpx.campaign_list_select')
             ,name: 'list_select'
@@ -360,27 +360,36 @@ chimpx.window.updateCampaign = function(config) {
             ,name: 'campaign_type'
             ,width: 300
             ,listWidth: 350
-        },{
+        }*/,{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_subject')
             ,name: 'subject'
             ,id: 'chimpx-'+this.ident+'-subject'
             ,width: 300
-            ,allowBlank: false
+            //,allowBlank: false
+            /*,triggerAction : 'all'
+            ,listeners: {
+              specialkey: function(f,e){
+                if (e.getKey() == e.ENTER) {
+                    alert("about to submit");
+                  myform.getForm().submit();
+                }
+              }
+            }*/
         },{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_title')
             ,name: 'title'
             ,id: 'chimpx-'+this.ident+'-title'
             ,width: 300
-        },{
+        }/*,{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_url')
             ,name: 'url'
             ,id: 'chimpx-'+this.ident+'-url'
             ,width: 300
-            ,allowBlank: false
-        },{
+            //,allowBlank: false
+        }*/,{
             //xtype: 'chimpx-combo-list_to_name'
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.list_to_name')
@@ -393,34 +402,40 @@ chimpx.window.updateCampaign = function(config) {
             ,name: 'from_name'
             ,id: 'chimpx-'+this.ident+'-from_name'
             ,width: 300
-            ,allowBlank: false
+            //,allowBlank: false
         },{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.list_from_email')
             ,name: 'from_email'
             ,id: 'chimpx-'+this.ident+'-from_email'
             ,width: 300
-            ,allowBlank: false
-        },{
+            //,allowBlank: false
+        }/*,{
             //xtype: 'combo-boolean'
             xtype: 'chimpx-boolean'
             ,fieldLabel: _('chimpx.campaign_generate_text')
             ,name: 'generate_text'
             ,id: 'chimpx-'+this.ident+'-generate_text'
             ,width: 300
-        }],buttons: [{
-            text: _('chimpx.update_close')
-            ,scope: this
-            ,handler: function() { this.hide(); }
-        }/*,{
+        }*/]
+        // window buttons
+        ,buttons: [{
             text: config.saveBtnText || _('save')
             ,scope: this
-            ,handler: function() { this.submit(false); }
+            ,handler: function() {
+                this.submit(false);
+            }
         },{
             text: config.saveBtnText || _('save_and_close')
             ,scope: this
             ,handler: this.submit
-        }*/]
+        },{
+            text: _('chimpx.update_close')
+            ,scope: this
+            ,handler: function() {
+                this.hide();
+            }
+        }]
     });
     chimpx.window.updateCampaign.superclass.constructor.call(this,config);
 };
@@ -567,7 +582,6 @@ Ext.reg('chimpx-combo-listlists', chimpx.combo.to_name);
 */
 
 // booleans (used for generate_text) @TODO: see if xcheckbox wouldn't fit better
-/*
 chimpx.combo.yesno = function(config) {
     config = config || {};
     Ext.applyIf(config, {
@@ -604,7 +618,6 @@ chimpx.combo.yesno = function(config) {
 };
 Ext.extend(chimpx.combo.yesno, MODx.combo.ComboBox);
 Ext.reg('chimpx-boolean', chimpx.combo.yesno);
-*/
 
 
 // @TODO: target resource with trigerField

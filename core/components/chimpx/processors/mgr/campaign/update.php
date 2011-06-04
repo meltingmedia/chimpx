@@ -26,24 +26,14 @@
  * @package chimpx
  * @subpackage processors
  */
-/* get board */
-/*
-if (empty($scriptProperties['id'])) return $modx->error->failure($modx->lexicon('chimpx.campaign_err_ns'));
-$item = $scriptProperties['id'];
-if (!$item) return $modx->error->failure($modx->lexicon('chimpx.campaign_err_nf'));
-*/
-/*
-$item->fromArray($scriptProperties);
 
-if ($item->save() == false) {
-    return $modx->error->failure($modx->lexicon('chimpx.campaign_err_save'));
+if (!empty($scriptProperties['id'])) {
+    $type = $scriptProperties['id'];
+} else {
+    $msg = $modx->lexicon('chimpx.campaign_err_nf');
+    $modx->log(modX::LOG_LEVEL_INFO,$msg);
+    return $modx->error->failure($msg);
 }
-*/
-/* output */
-/*
-$itemArray = $item->toArray('',true);
-return $modx->error->success('',$itemArray);
-*/
 
 $api = new MCAPI($modx->getOption('chimpx_apikey'));
 
@@ -51,4 +41,15 @@ $cid = $scriptProperties['id'];
 $name = $scriptProperties['name'];
 $value = $scriptProperties['value'];
 
-$retval = $api->campaignUpdate($cid,$name,$value);
+foreach($_POST as $name => $value) {
+    $retval = $api->campaignUpdate($cid,$name,$value);
+}
+
+if ($api->errorCode) {
+    $modx->log(modX::LOG_LEVEL_ERROR, 'error n#: '. $api->errorCode .' message: '. $api->errorMessage);
+    return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
+} else {
+    $msg = 'Campaign ID '. $cid .' updated.';
+    $modx->log(modX::LOG_LEVEL_INFO,$msg);
+    return $modx->error->success('',$msg);
+}
