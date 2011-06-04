@@ -41,9 +41,33 @@ $cid = $scriptProperties['id'];
 $name = $scriptProperties['name'];
 $value = $scriptProperties['value'];
 
+//@TODO: retrieve the resource ID from the complete URL (content-url)
+
+$content = array();
+
 foreach($_POST as $name => $value) {
-    $retval = $api->campaignUpdate($cid,$name,$value);
+    // let's check the prefixed values (content-*…)
+    if(substr($name,0,8) == 'content-') {
+        // we got value for the content array
+        if($name == 'content-url') {
+            // we need to make an url with the ID
+            $content['url'] = $modx->makeUrl($scriptProperties['content-url']);
+            $name = 'content';
+            $retval = $api->campaignUpdate($cid,$name,$content);
+            unset($name);
+        } else {
+            // Nothing's implemented yet… that's a reminder for later
+            /*$content[ltrim($name, 'content-')] = $scriptProperties[$name];
+            $name = 'content';
+            $retval = $api->campaignUpdate($cid,$name,$content);
+            unset($name);*/
+        }
+    } else {
+        // the values should be in the options array, so thread them normally
+        $retval = $api->campaignUpdate($cid,$name,$value);
+    }
 }
+
 
 if ($api->errorCode) {
     $modx->log(modX::LOG_LEVEL_ERROR, 'error n#: '. $api->errorCode .' message: '. $api->errorMessage);

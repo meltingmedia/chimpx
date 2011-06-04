@@ -382,14 +382,14 @@ chimpx.window.updateCampaign = function(config) {
             ,name: 'title'
             ,id: 'chimpx-'+this.ident+'-title'
             ,width: 300
-        }/*,{
+        },{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_url')
-            ,name: 'url'
+            ,name: 'content-url'
             ,id: 'chimpx-'+this.ident+'-url'
             ,width: 300
             //,allowBlank: false
-        }*/,{
+        },{
             //xtype: 'chimpx-combo-list_to_name'
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.list_to_name')
