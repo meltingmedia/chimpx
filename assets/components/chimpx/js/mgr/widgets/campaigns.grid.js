@@ -78,6 +78,11 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
             text: _('chimpx.campaign_remove')
             ,handler: this.removeCampaign
         });
+        /*m.push({
+            //text: _('chimpx.campaign_view')
+            text: 'view'
+            ,handler: this.viewCampaign
+        });*/
         this.addContextMenuItem(m);
     }
 
@@ -152,6 +157,25 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
             }
         });
     }
+
+    /*,viewCampaign: function(btn,e) {
+        if (!this.menu.record) return false;
+
+        MODx.msg.confirm({
+            title: _('chimpx.campaign_remove')
+            ,text: _('chimpx.campaign_remove_confirm')
+            ,url: this.config.url
+            ,params: {
+                action: 'mgr/campaign/getcontent'
+                ,id: this.menu.record.id
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    this.refresh();
+                },scope:this}
+            }
+        });
+    }*/
 
     ,replicateCampaign: function(btn,e) {
         if (!this.menu.record) return false;

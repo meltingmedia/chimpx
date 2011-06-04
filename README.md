@@ -1,6 +1,6 @@
 ## Chimpx
 
-Chimpx is an MailChimp integration with MODX Revolution
+Chimpx is an MailChimp integration with MODX Revolution.
 
 ## How to install
 
@@ -12,7 +12,14 @@ Install package manager & follow the instructions
 
 ## Information
 
+This is the first steps hopefully leading to a "full" MailChimp integration
+for MODX Revolution (2.1+).
 
+At this time you can :
+- create a campaign from a MODX resource
+- read any campaign
+- update some campaign details
+- delete any campaign (saved or already sent)
 
 ## Copyright Information
 
