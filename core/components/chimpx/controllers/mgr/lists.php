@@ -20,34 +20,16 @@
  * @package chimpx
  */
 /**
- * Adds modActions and modMenus into package
+ * Loads the home page.
  *
  * @package chimpx
- * @subpackage build
+ * @subpackage controllers
  */
-$action= $modx->newObject('modAction');
-$action->fromArray(array(
-    'id' => 1,
-    'namespace' => 'chimpx',
-    'parent' => 0,
-    'controller' => 'index',
-    'haslayout' => 1,
-    'lang_topics' => 'chimpx:default',
-    'assets' => '',
-),'',true,true);
+/*$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/lists.grid.js');
+//$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/campaign.wizard.js');
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/campaigns.grid.js');
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/home.panel.js');
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/sections/home.js');*/
+$output = '<div id="chimpx-panel-home-div">LISTS!!! + [[+listid]]</div>';
 
-/* load action into menu */
-$menu= $modx->newObject('modMenu');
-$menu->fromArray(array(
-    'text' => 'chimpx',
-    'parent' => 'components',
-    'description' => 'chimpx.menu_desc',
-    'icon' => 'images/icons/plugin.gif',
-    'menuindex' => 0,
-    'params' => '',
-    'handler' => '',
-),'',true,true);
-$menu->addOne($action);
-unset($action);
-
-return $menu;
+return $output;
