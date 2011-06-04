@@ -54,9 +54,12 @@ $_lang['chimpx.campaign_update'] = 'Update this campaign';
 $_lang['chimpx.campaign_send_test'] = 'Test this campaign';
 $_lang['chimpx.campaign_send_test_email'] = 'Send test to';
 $_lang['chimpx.campaign_send_test_email_desc'] = 'Email address to send the test to';
+$_lang['chimpx.campaign_test_sent'] = 'The test is sent. Check your inbox!';
 $_lang['chimpx.campaign_replicate'] = 'Replicate this campaign';
 $_lang['chimpx.campaign_replicate_confirm'] = 'Are you sure you want to replicate this campaign and its settings?';
 $_lang['chimpx.campaign_stats'] = 'Campaign stats';
+$_lang['chimpx.campaign_sending'] = 'Your campaign is in MailChimp queue & will be processed soon.';
+$_lang['chimpx.campaign_sending_title'] = 'Campaign sent.';
 
 // campaigns grid columns labels
 $_lang['chimpx.campaign_list_name'] = 'List';
@@ -128,3 +131,6 @@ $_lang['chimpx.list_member_count'] = 'Subscribers';
 // lists combo box
 $_lang['chimpx.list_combo_blank'] = 'Choose a list';
 $_lang['chimpx.list_combo_empty'] = 'Choose a list';
+
+// MailChimp API error infos
+$_lang['chimpx.error_info'] = 'Error n°: [[+number]]<br />Message: [[+message]]';

@@ -105,12 +105,12 @@ $segment_opts = array();
 $type_opts = array();
 
 // Let's create the campaign
-$chimpXcreateCampaign = $api->campaignCreate($type, $opts, $content, $segment_opts, $type_opts);
+$api->campaignCreate($type, $opts, $content, $segment_opts, $type_opts);
 
 if ($api->errorCode) {
-    $modx->log(modX::LOG_LEVEL_ERROR, 'error n#: '. $api->errorCode .' message: '. $api->errorMessage);
-    return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
+    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
+    $modx->log(modX::LOG_LEVEL_INFO, $msg);
+    return $modx->error->failure($msg);
 } else {
-    //$modx->log(modX::LOG_LEVEL_ERROR, 'Campaign ID '. $chimpXcreateCampaign .' created.');
-    return $modx->error->success('');
+    return $modx->error->success();
 }

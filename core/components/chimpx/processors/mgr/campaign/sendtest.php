@@ -26,20 +26,20 @@
  * @package chimpx
  * @subpackage processors
  */
- 
-$api = new MCAPI($modx->getOption('chimpx_apikey'));
-$campaignId = $scriptProperties['id'];
-$emails = array($scriptProperties['test_email']);
 
-$retval = $api->campaignSendTest($campaignId, $emails);
+$campaignId = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
+$emails = isset($scriptProperties['test_email']) ? array($scriptProperties['test_email']) : '';
+
+$api = new MCAPI($modx->getOption('chimpx_apikey'));
+
+$api->campaignSendTest($campaignId, $emails);
 
 if ($api->errorCode){
-    $modx->log(modX::LOG_LEVEL_ERROR, 'error n#: '. $api->errorCode .' message: '. $api->errorMessage);
-    return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
+    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
+    $modx->log(modX::LOG_LEVEL_INFO, $msg);
+    return $modx->error->failure($msg);
 } else {
-    //$modx->log(modX::LOG_LEVEL_ERROR, 'Test sent!');
-    //return $modx->error->success('Test successfully sent!<br />Please check your inbox.');
-    $msg = $modx->lexicon('chimpx.campaign_campaign_type_ns');
+    $msg = $modx->lexicon('chimpx.campaign_test_sent');
     $modx->log(modX::LOG_LEVEL_INFO,$msg);
-    return $modx->error->success($msg);
+    return $modx->error->success('',$msg);
 }

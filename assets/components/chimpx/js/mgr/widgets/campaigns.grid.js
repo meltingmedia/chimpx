@@ -151,8 +151,11 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 ,id: this.menu.record.id
             }
             ,listeners: {
-                'success': {fn:function(r) {
+                'success': {fn: function(r) {
                     this.refresh();
+                },scope:this}
+                ,'failure': {fn: function(r) {
+                    MODx.msg.alert();
                 },scope:this}
             }
         });
@@ -189,8 +192,11 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 ,id: this.menu.record.id
             }
             ,listeners: {
-                'success': {fn:function(r) {
+                'success': {fn: function(r) {
                     this.refresh();
+                },scope:this}
+                ,'failure': {fn: function(r) {
+                    MODx.msg.alert();
                 },scope:this}
             }
         });
@@ -210,14 +216,11 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
             ,listeners: {
                 'success': {fn: function(r) {
                     this.refresh();
-                    MODx.msg.alert('wouhou','it\'s supposed to be sent!');
-                    //return false;
+                    MODx.msg.alert(_('chimpx.campaign_sending_title'),_('chimpx.campaign_sending'));
                 },scope:this}
                 ,'failure': {fn: function(r) {
-                    MODx.msg.alert('oh oh!','Seems like something went wrong dude!');
-                    return false;
+                    MODx.msg.alert();
                 },scope:this}
-                //
             }
         });
     }
@@ -232,8 +235,7 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
                 ,record: r
                 ,listeners: {
                     'success': {fn:function() {
-                        MODx.msg.alert();
-                        this.refresh();
+                        MODx.msg.alert(_('chimpx.campaign_send_test'),_('chimpx.campaign_test_sent'));
                     },scope:this}
                     ,'failure': {fn:function() {
                         MODx.msg.alert();
@@ -413,14 +415,14 @@ chimpx.window.updateCampaign = function(config) {
             ,id: 'chimpx-'+this.ident+'-url'
             ,width: 300
             //,allowBlank: false
-        },{
+        }/*,{
             //xtype: 'chimpx-combo-list_to_name'
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.list_to_name')
             ,name: 'to_name'
             ,id: 'chimpx-'+this.ident+'-to_name'
             ,width: 300
-        },{
+        }*/,{
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.list_from_name')
             ,name: 'from_name'
@@ -434,14 +436,17 @@ chimpx.window.updateCampaign = function(config) {
             ,id: 'chimpx-'+this.ident+'-from_email'
             ,width: 300
             //,allowBlank: false
-        }/*,{
+        },{
             //xtype: 'combo-boolean'
-            xtype: 'chimpx-boolean'
+            //xtype: 'chimpx-boolean'
+            // as we change the url, we need to force text generation again
+            xtype: 'hidden'
             ,fieldLabel: _('chimpx.campaign_generate_text')
             ,name: 'generate_text'
             ,id: 'chimpx-'+this.ident+'-generate_text'
             ,width: 300
-        }*/]
+            ,value: true
+        }]
         // window buttons
         ,buttons: [{
             text: config.saveBtnText || _('save')
@@ -494,6 +499,19 @@ chimpx.window.sendTest = function(config) {
             ,dataIndex: 'test_email'
             ,vtype: 'email'
             ,allowBlank: false
+        }]
+        ,buttons: [{
+            text: _('cancel')
+            ,scope: this
+            ,handler: function() {
+                this.hide();
+            }
+        },{
+            text: config.saveBtnText || _('chimpx.campaign_send_test')
+            ,scope: this
+            ,handler: function() {
+                this.submit();
+            }
         }]
     });
     chimpx.window.sendTest.superclass.constructor.call(this,config);

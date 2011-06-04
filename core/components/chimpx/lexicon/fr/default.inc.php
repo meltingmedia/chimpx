@@ -54,9 +54,12 @@ $_lang['chimpx.campaign_update'] = 'Modifier cette campagne';
 $_lang['chimpx.campaign_send_test'] = 'Tester cette campagne';
 $_lang['chimpx.campaign_send_test_email'] = 'Envoyer le test à';
 $_lang['chimpx.campaign_send_test_email_desc'] = 'Adresse e-mail à laquelle envoyer le test';
+$_lang['chimpx.campaign_test_sent'] = 'Le test est envoyé. Vérifiez vos e-mails!';
 $_lang['chimpx.campaign_replicate'] = 'Dupliquer cette campagne';
 $_lang['chimpx.campaign_replicate_confirm'] = 'Êtes-vous sûr de vouloir dupliquer cette campagne et ses paramètres ?';
 $_lang['chimpx.campaign_stats'] = 'Stats de cette campagne';
+$_lang['chimpx.campaign_sending'] = 'Votre campagne est placée dans la file d\'attente de MailChimp et sera bientôt envoyée.';
+$_lang['chimpx.campaign_sending_title'] = 'Campagne envoyée.';
 
 // campaigns grid columns
 $_lang['chimpx.campaign_list_name'] = 'Liste';
@@ -128,3 +131,6 @@ $_lang['chimpx.list_member_count'] = 'Inscrits';
 // lists combo box
 $_lang['chimpx.list_combo_blank'] = 'Choisissez votre liste';
 $_lang['chimpx.list_combo_empty'] = 'Choisissez votre liste';
+
+// MailChimp API error infos
+$_lang['chimpx.error_info'] = 'Erreur n°: [[+number]]<br />Message: [[+message]]';

@@ -27,13 +27,16 @@
  * @subpackage processors
  */
  
+$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
+
 $api = new MCAPI($modx->getOption('chimpx_apikey'));
 
-$retval = $api->campaignReplicate($scriptProperties['id']);
+$api->campaignReplicate($cid);
 
 if ($api->errorCode){
-    $modx->log(modX::LOG_LEVEL_ERROR, 'Uhoh, error n#: '. $api->errorCode .' message: '. $api->errorMessage);
-    return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
+    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
+    $modx->log(modX::LOG_LEVEL_INFO, $msg);
+    return $modx->error->failure($msg);
 } else {
-    return $modx->error->success('Campaign replicated');
+    return $modx->error->success();
 }

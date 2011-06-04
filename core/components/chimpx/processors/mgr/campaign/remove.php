@@ -27,12 +27,16 @@
  * @subpackage processors
  */
 
+$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
+
 $api = new MCAPI($modx->getOption('chimpx_apikey'));
 
-$deleteCampaign = $api->campaignDelete($scriptProperties['id']);
+$deleteCampaign = $api->campaignDelete($cid);
 
 if ($api->errorCode) {
-    $modx->log(modX::LOG_LEVEL_ERROR, 'Unable to delete the campaign, error n#: '. $api->errorCode .' message: '. $api->errorMessage);
+    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
+    $modx->log(modX::LOG_LEVEL_INFO, $msg);
+    return $modx->error->failure($msg);
 } else {
-    return $modx->error->success('Successfully accomplished master!');
+    return $modx->error->success();
 }
