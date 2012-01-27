@@ -1,20 +1,20 @@
-Ext.onReady(function() {
-    MODx.load({ xtype: 'chimpx-page-home'});
-});
+/*Ext.onReady(function() {
+    MODx.load({ xtype: 'chimpx-page-campaign'});
+});*/
 
 /**
- * @class chimpx.page.Home
+ * @class chimpx.page.Campaign
  * @extends MODx.Component
  * @param config
- * @xtype chimpx-page-home
+ * @xtype chimpx-page-campaign
  */
-chimpx.page.Home = function(config) {
+chimpx.page.Campaign = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
         components: [{
-            xtype: 'chimpx-panel-home'
-            ,renderTo: 'chimpx-panel-home-div'
+            xtype: 'chimpx-panel-campaign'
+            ,renderTo: 'chimpx-panel-campaign-div'
         }]
         ,buttons: [{
             text: _('chimpx.check_mailchimp_status')
@@ -28,10 +28,10 @@ chimpx.page.Home = function(config) {
             ,handler: this.mailchimpHelp
         }]
     }); 
-    chimpx.page.Home.superclass.constructor.call(this, config);
+    chimpx.page.Campaign.superclass.constructor.call(this, config);
 };
 
-Ext.extend(chimpx.page.Home, MODx.Component, {
+Ext.extend(chimpx.page.Campaign, MODx.Component, {
     config: {}
     ,util:{}, window:{}, panel:{}, tree:{}, form:{}, grid:{}, combo:{}, toolbar:{}, page:{}, msg:{}
 
@@ -50,4 +50,4 @@ Ext.extend(chimpx.page.Home, MODx.Component, {
         return true;
     }
 });
-Ext.reg('chimpx-page-home', chimpx.page.Home);
+Ext.reg('chimpx-page-campaign', chimpx.page.Campaign);

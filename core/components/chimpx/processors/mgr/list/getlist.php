@@ -23,37 +23,39 @@
  * Get a list of MailChimp lists
  * http://apidocs.mailchimp.com/1.3/lists.func.php
  *
+ * @var modX $modx
  * @package chimpx
  * @subpackage processors
  */
 
 $api = new MCAPI($modx->getOption('chimpx.apikey'));
 
-$start = $modx->getOption('start',$_REQUEST,0);
-$limit = $modx->getOption('limit',$_REQUEST,20);
+$start = $modx->getOption('start', $_REQUEST, 0);
+$limit = $modx->getOption('limit', $_REQUEST, 20);
 
 // filters to apply to the query
 $filters = array();
 
-$mcLists = $api->lists($filters,$start,$limit);
+$mcLists = $api->lists($filters, $start, $limit);
 
 if ($api->errorCode){
     $modx->log(modX::LOG_LEVEL_ERROR, 'Uhoh, error n#: '. $api->errorCode .' message: '. $api->errorMessage);
     return $modx->error->failure('error n#: '. $api->errorCode .' message: '. $api->errorMessage);
-} else {
-    $count = $mcLists['total'];
-
-    $list = array();
-    foreach ($mcLists['data'] as $mcList) {
-        $list[] = $mcList;
-    }
-
-    // grab the subscribers count
-    foreach ($mcLists['data'] as $mcList) {
-        $mcList['member_count'] = $mcList['stats']['member_count'];
-        unset($mcList['stats']['member_count']);
-        $list[] = $mcList;
-    }
-
-    return $this->outputArray($list,$count);
 }
+
+$count = $mcLists['total'];
+
+$list = array();
+foreach ($mcLists['data'] as $mcList) {
+    $list[] = $mcList;
+}
+
+// grab the subscribers count
+foreach ($mcLists['data'] as $mcList) {
+    //$modx->log(modX::LOG_LEVEL_ERROR, print_r($mcList, 1));
+    $mcList['member_count'] = $mcList['stats']['member_count'];
+    unset($mcList['stats']['member_count']);
+    $list[] = $mcList;
+}
+
+return $this->outputArray($list,$count);

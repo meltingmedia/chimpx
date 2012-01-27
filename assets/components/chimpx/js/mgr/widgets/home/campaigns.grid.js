@@ -13,28 +13,31 @@ chimpx.grid.Campaigns = function(config) {
         ,baseParams: {
             action: 'mgr/campaign/getlist'
         }
-        ,fields: [
+        ,fields: ['id', 'title', 'status', 'subject', 'listname']
+        /*,fields: [
             'id','title','send_time','emails_sent','status','subject'
             ,'web_id','list_id','folder_id','template_id','content_type','type','create_time','from_name','from_email'
             ,'to_name','archive_url','inline_css','analytics','analytics_tag','authenticate','ecomm360','auto_tweet'
             ,'auto_fb_post','auto_footer','timewarp','timewarp_schredule','segment_text','segment_opts','type_opts'
-        ]
+        ]*/
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
         ,grouping: true
-        ,groupBy: 'list_id'
+        //,groupBy: 'list_id'
+        ,groupBy: 'listname'
         ,sortBy: 'create_time'
         ,sortDir: 'DESC'
         ,singleText: _('chimpx.campaign')
-        ,pluralText: _('chimpx.campaignss')
+        ,pluralText: _('chimpx.campaigns')
         ,columns: [{
             header: _('chimpx.campaign_list_name')
-            ,dataIndex: 'list_id'
+            ,dataIndex: 'listname'
+            /*,dataIndex: 'list_id'
             ,editor: {
                 xtype: 'chimpx-combo-listlists'
                 ,renderer: true
-            }
+            }*/
             ,hidden: true
         },{
             header: _('chimpx.campaign_name')
@@ -51,6 +54,10 @@ chimpx.grid.Campaigns = function(config) {
         ,tbar: [{
             text: _('chimpx.campaign_create')
             ,handler: this.createCampaign
+            /*,handler: function() {
+                location.href = '?a='+ chimpx.action +'&action=campaign';
+                //location.href = {a:MODx.action['chimpx:controllers/mgr/campaign']};
+            }*/
             ,scope: this
         }/*,{
             xtype: 'chimpx-combo-listlists'

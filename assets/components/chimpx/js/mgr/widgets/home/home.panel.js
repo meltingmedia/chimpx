@@ -9,7 +9,7 @@ chimpx.panel.Home = function(config) {
 
     var tabs = [];
     tabs.push({
-        title: _('chimpx.campaigns')
+        title: _('chimpx.tab_campaigns')
         ,autoHeight: true
         ,items: [{
             html: _('chimpx.intro_msg')
@@ -23,7 +23,7 @@ chimpx.panel.Home = function(config) {
         }]
     });
     tabs.push({
-        title: _('chimpx.lists')
+        title: _('chimpx.tab_lists')
         ,autoHeight: true
         ,items: [{
             html: _('chimpx.lists_intro_msg')

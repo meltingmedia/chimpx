@@ -25,6 +25,8 @@
  * @package chimpx
  */
 class chimpx {
+    public  $mc = null;
+
     function __construct(modX &$modx, array $config = array()) {
         $this->modx =& $modx;
 
@@ -48,17 +50,17 @@ class chimpx {
             'processorsPath' => $corePath.'processors/',
         ), $config);
 
-        // Let's load the MailChimp API class
-        if (empty($this->mcapi)) {
-            if ($this->modx->loadClass('mailchimp.MCAPI', $this->config['modelPath'], true, true)) {
-                //$this->mcapi = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
-                //$this->mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
-            } else {
-                $this->modx->log(modX::LOG_LEVEL_ERROR, '[chimpx] - unable to load MailChimp API class');
+        // Let's load the MailChimp API
+        if (!$this->mc) {
+            //$this->modx->log(modX::LOG_LEVEL_ERROR, 'loading the mc class');
+            if (!$this->modx->loadClass('mailchimp.MCAPI', $this->config['modelPath'], true, true)) {
+                $this->modx->log(modX::LOG_LEVEL_ERROR, '[chimpx] - unable to load MailChimp API');
                 return false;
             }
+            $mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
+            $this->mc =& $mc;
+            //$this->modx->log(modX::LOG_LEVEL_ERROR, 'should be loaded');
         }
-        //return $this->mcapi;
 
         $this->modx->addPackage('chimpx', $this->config['modelPath']);
         $this->modx->lexicon->load('chimpx:default');
@@ -154,7 +156,12 @@ class chimpx {
     }
 
     public function init() {
-        $mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
-        return $mc;
+        /*if (!$this->modx->loadClass('mailchimp.MCAPI', $this->config['modelPath'], true, true)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, '[chimpx] - unable to load MailChimp API');
+            return false;
+        }*/
+        /*require_once $this->config['model_path'] . 'mailchimp/mcapi.class.php';
+        $this->mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
+        return $this->mc;*/
     }
 }

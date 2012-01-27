@@ -30,6 +30,9 @@
  */
 
 $api = new MCAPI($modx->getOption('chimpx.apikey'), true);
+//$api = $chimpx->mc;
+
+/** @var $api MCAPI */
 //$api = $chimpx->init();
 
 // grid pagination
@@ -42,21 +45,21 @@ $filters = array();
 if ($status) $filters['status'] = $status;*/
 
 $campaigns = $api->campaigns($filters, $start, $limit);
-
 if ($api->errorCode){
     $msg = $modx->lexicon('chimpx.error_info', array(
         'number' => $api->errorCode,
         'message' => $api->errorMessage,
     ));
-    $modx->log(modX::LOG_LEVEL_INFO, $msg);
     return $modx->error->failure($msg);
 }
 
 $count = $campaigns['total'];
 $list = array();
+
 foreach ($campaigns['data'] as $campaign) {
-    //$modx->log(modX::LOG_LEVEL_ERROR, print_r($campaign, 1));
+    $listname = $api->lists(array('list_id' => $campaign['list_id']));
+    $campaign['listname'] = $listname['data'][0]['name'];
     $campaign['status'] = $modx->lexicon('chimpx.campaign_status_'.$campaign['status']);
     $list[] = $campaign;
 }
-return $this->outputArray($list,$count);
+return $this->outputArray($list, $count);

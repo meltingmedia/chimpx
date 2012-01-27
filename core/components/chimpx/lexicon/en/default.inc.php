@@ -38,10 +38,10 @@ $_lang['chimpx.mailchimp_account'] = 'Your MailChimp Account';
 $_lang['chimpx_help'] = 'Help';
 
 // campaigns grid
-$_lang['chimpx.campaigns'] = 'All your campaigns';
+$_lang['chimpx.tab_campaigns'] = 'All your campaigns';
 
 $_lang['chimpx.campaign'] = 'campaign';
-$_lang['chimpx.campaignss'] = 'campaigns';
+$_lang['chimpx.campaigns'] = 'campaigns';
 $_lang['chimpx.campaign_err_nf'] = 'Campaign not found.';
 $_lang['chimpx.campaign_err_ns'] = 'Campaign not specified.';
 $_lang['chimpx.campaign_err_remove'] = 'An error occurred while trying to remove the campaing.';
@@ -114,6 +114,7 @@ $_lang['chimpx.campaigntype_combo_blank'] = 'Please choose a campaign type';
 $_lang['chimpx.campaigntype_combo_empty'] = 'Please choose a campaign type';
 
 $_lang['chimpx.campaigntype_combo_regular'] = 'Regular ol\' campaign';
+$_lang['chimpx.campaigntype_combo_regular_desc'] = 'Normal campaign type, sending multipart emails (HTML + text)';
 $_lang['chimpx.campaigntype_combo_plaintext'] = 'Plain-text';
 $_lang['chimpx.campaigntype_combo_absplit'] = 'A/B split';
 $_lang['chimpx.campaigntype_combo_rss'] = 'RSS driven';
@@ -121,7 +122,7 @@ $_lang['chimpx.campaigntype_combo_trans'] = 'Trans [?]';
 $_lang['chimpx.campaigntype_combo_auto'] = 'AutoResponder';
 
 // lists grid
-$_lang['chimpx.lists'] = 'All your lists';
+$_lang['chimpx.tab_lists'] = 'All your lists';
 $_lang['chimpx.lists_intro_msg'] = 'View your MailChimp lists. If you want to create a new list, you have to make it through <a href="//login.mailchimp.com" target="_blank">MailChimp</a> directly.';
 $_lang['chimpx.list_id'] = 'ID';
 $_lang['chimpx.list_web_id'] = 'Web ID';

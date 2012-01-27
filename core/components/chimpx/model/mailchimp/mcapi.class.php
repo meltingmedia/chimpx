@@ -30,16 +30,6 @@ class MCAPI {
      */
     var $secure = false;
 
-    /*function __construct(chimpx &$chimpx, array $config = array()) {
-        $this->chimpx =& $chimpx;
-        $this->modx =& $chimpx->modx;
-
-        $this->config = array_merge(array(
-            'apikey' => $this->modx->getOption('chimpx.apikey',null,''),
-            //'host' => $this->modx->getOption('rampart.honeypot.blhost',null,'dnsbl.httpbl.org'),
-        ),$config);
-    }*/
-
     /**
      * Connect to the MailChimp API for a given list.
      *
