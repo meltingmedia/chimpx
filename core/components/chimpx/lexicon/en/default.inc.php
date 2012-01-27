@@ -40,6 +40,8 @@ $_lang['chimpx_help'] = 'Help';
 // campaigns grid
 $_lang['chimpx.campaigns'] = 'All your campaigns';
 
+$_lang['chimpx.campaign'] = 'campaign';
+$_lang['chimpx.campaignss'] = 'campaigns';
 $_lang['chimpx.campaign_err_nf'] = 'Campaign not found.';
 $_lang['chimpx.campaign_err_ns'] = 'Campaign not specified.';
 $_lang['chimpx.campaign_err_remove'] = 'An error occurred while trying to remove the campaing.';
@@ -54,6 +56,8 @@ $_lang['chimpx.campaign_update'] = 'Update this campaign';
 $_lang['chimpx.campaign_send_test'] = 'Test this campaign';
 $_lang['chimpx.campaign_send_test_email'] = 'Send test to';
 $_lang['chimpx.campaign_send_test_email_desc'] = 'Email address to send the test to';
+$_lang['chimpx.campaign_status_save'] = 'Saved';
+$_lang['chimpx.campaign_status_sent'] = 'Sent';
 $_lang['chimpx.campaign_test_sent'] = 'The test is sent. Check your inbox!';
 $_lang['chimpx.campaign_replicate'] = 'Replicate this campaign';
 $_lang['chimpx.campaign_replicate_confirm'] = 'Are you sure you want to replicate this campaign and its settings?';

@@ -22,6 +22,8 @@
 /**
  * Loads the home page.
  *
+ * @var modX $modx
+ * @var chimpx $chimpx
  * @package chimpx
  * @subpackage controllers
  */

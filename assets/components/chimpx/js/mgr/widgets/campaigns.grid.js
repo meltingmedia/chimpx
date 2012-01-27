@@ -1,6 +1,13 @@
+/**
+ * @class chimpx.grid.Campaigns
+ * @extends MODx.grid.Grid
+ * @param config
+ * @xtype chimpx-grid-campaigns
+ */
 chimpx.grid.Campaigns = function(config) {
     config = config || {};
-    Ext.applyIf(config,{
+
+    Ext.applyIf(config, {
         id: 'chimpx-grid-campaigns'
         ,url: chimpx.config.connector_url
         ,baseParams: {
@@ -15,20 +22,27 @@ chimpx.grid.Campaigns = function(config) {
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
+        ,grouping: true
+        ,groupBy: 'list_id'
+        ,sortBy: 'create_time'
+        ,sortDir: 'DESC'
+        ,singleText: _('chimpx.campaign')
+        ,pluralText: _('chimpx.campaignss')
         ,columns: [{
             header: _('chimpx.campaign_list_name')
             ,dataIndex: 'list_id'
-            ,width: 70
-            ,editor: { xtype: 'chimpx-combo-listlists' ,renderer: true }
+            ,editor: {
+                xtype: 'chimpx-combo-listlists'
+                ,renderer: true
+            }
+            ,hidden: true
         },{
             header: _('chimpx.campaign_name')
             ,dataIndex: 'title'
-            ,width: 100
             ,sortable: true
         },{
             header: _('chimpx.campaign_subject')
             ,dataIndex: 'subject'
-            ,width: 250
         },{
             header: _('chimpx.campaign_status')
             ,dataIndex: 'status'
@@ -38,7 +52,10 @@ chimpx.grid.Campaigns = function(config) {
             text: _('chimpx.campaign_create')
             ,handler: this.createCampaign
             ,scope: this
-        }]
+        }/*,{
+            xtype: 'chimpx-combo-listlists'
+            ,id: 'list_id'
+        }*/]
     });
     chimpx.grid.Campaigns.superclass.constructor.call(this,config);
 };

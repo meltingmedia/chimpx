@@ -25,11 +25,11 @@
  * @package chimpx
  */
 class chimpx {
-    function __construct(modX &$modx,array $config = array()) {
+    function __construct(modX &$modx, array $config = array()) {
         $this->modx =& $modx;
 
-        $corePath = $this->modx->getOption('chimpx.core_path',$config,$this->modx->getOption('core_path').'components/chimpx/');
-        $assetsUrl = $this->modx->getOption('chimpx.assets_url',$config,$this->modx->getOption('assets_url').'components/chimpx/');
+        $corePath = $this->modx->getOption('chimpx.core_path', $config, $this->modx->getOption('core_path').'components/chimpx/');
+        $assetsUrl = $this->modx->getOption('chimpx.assets_url', $config, $this->modx->getOption('assets_url').'components/chimpx/');
         $connectorUrl = $assetsUrl.'connector.php';
 
         $this->config = array_merge(array(
@@ -46,20 +46,21 @@ class chimpx {
             'chunkSuffix' => '.chunk.tpl',
             'snippetsPath' => $corePath.'elements/snippets/',
             'processorsPath' => $corePath.'processors/',
-        ),$config);
+        ), $config);
 
         // Let's load the MailChimp API class
         if (empty($this->mcapi)) {
-            if ($this->modx->loadClass('mailchimp.MCAPI',$this->config['modelPath'],true,true)) {
-                $this->mcapi = new MCAPI($this->modx,$config);
+            if ($this->modx->loadClass('mailchimp.MCAPI', $this->config['modelPath'], true, true)) {
+                //$this->mcapi = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
+                //$this->mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
             } else {
-                $this->modx->log(modX::LOG_LEVEL_ERROR,'[chimpx] - unable to load MailChimp API class');
+                $this->modx->log(modX::LOG_LEVEL_ERROR, '[chimpx] - unable to load MailChimp API class');
                 return false;
             }
         }
-        return $this->mcapi;
+        //return $this->mcapi;
 
-        $this->modx->addPackage('chimpx',$this->config['modelPath']);
+        $this->modx->addPackage('chimpx', $this->config['modelPath']);
         $this->modx->lexicon->load('chimpx:default');
     }
 
@@ -152,4 +153,8 @@ class chimpx {
         return $chunk;
     }
 
+    public function init() {
+        $mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
+        return $mc;
+    }
 }

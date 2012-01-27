@@ -1,45 +1,54 @@
+/**
+ * @class chimpx.panel.Home
+ * @extends MODx.FormPanel
+ * @param config
+ * @xtype chimpx-panel-home
+ */
 chimpx.panel.Home = function(config) {
     config = config || {};
-    Ext.applyIf(config,{
+
+    var tabs = [];
+    tabs.push({
+        title: _('chimpx.campaigns')
+        ,autoHeight: true
+        ,items: [{
+            html: _('chimpx.intro_msg')
+            ,border: false
+            ,bodyCssClass: 'panel-desc'
+        },{
+            xtype: 'chimpx-grid-campaigns'
+            ,id: 'chimpx-grid-campaigns'
+            ,preventRender: true
+            ,cls: 'main-wrapper'
+        }]
+    });
+    tabs.push({
+        title: _('chimpx.lists')
+        ,autoHeight: true
+        ,items: [{
+            html: _('chimpx.lists_intro_msg')
+            ,border: false
+            ,bodyCssClass: 'panel-desc'
+        },{
+            xtype: 'chimpx-grid-lists'
+            ,id: 'chimpx-grid-lists'
+            ,preventRender: true
+            ,cls: 'main-wrapper'
+        }]
+    });
+
+    Ext.applyIf(config, {
         id: 'chimpx-panel-home'
         ,bodyStyle: ''
+        ,cls: 'container'
         ,items: [{
-            html: '<h2>'+_('chimpx')+'</h2>'
+            html: '<h2>'+ _('chimpx') +'</h2>'
             ,border: false
             ,cls: 'modx-page-header'
             ,id: 'modx-home-header'
-        },MODx.getPageStructure([
-        // campaign tab
-        {
-            title: _('chimpx.campaigns')
-            ,bodyStyle: 'padding: 15px;'
-            ,autoHeight: true
-            ,items: [{
-                html: '<p>'+_('chimpx.intro_msg')+'</p>'
-                ,border: false
-            },{
-                xtype: 'chimpx-grid-campaigns'
-                ,id: 'chimpx-grid-campaigns'
-                ,preventRender: true
-            }]
-        }
-        // list tab
-        ,{
-            title: _('chimpx.lists')
-            ,bodyStyle: 'padding: 15px;'
-            ,autoHeight: true
-            ,items: [{
-                html: '<p>'+_('chimpx.lists_intro_msg')+'</p>'
-                ,border: false
-            },{
-                xtype: 'chimpx-grid-lists'
-                ,id: 'chimpx-grid-lists'
-                ,title: ''
-                ,preventRender: true
-            }]
-        }])]
+        },MODx.getPageStructure(tabs)]
     });
-    chimpx.panel.Home.superclass.constructor.call(this,config);
+    chimpx.panel.Home.superclass.constructor.call(this, config);
 };
-Ext.extend(chimpx.panel.Home,MODx.FormPanel);
-Ext.reg('chimpx-panel-home',chimpx.panel.Home);
+Ext.extend(chimpx.panel.Home, MODx.FormPanel);
+Ext.reg('chimpx-panel-home', chimpx.panel.Home);

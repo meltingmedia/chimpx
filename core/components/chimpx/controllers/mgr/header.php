@@ -22,10 +22,12 @@
 /**
  * Loads the header for mgr pages.
  *
+ * @var modX $modx
+ * @var chimpx $chimpx
  * @package chimpx
  * @subpackage controllers
  */
-$modx->regClientCSS($chimpx->config['cssUrl'].'mgr.css');
+//$modx->regClientCSS($chimpx->config['cssUrl'].'mgr.css');
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/chimpx.js');
 $modx->regClientStartupHTMLBlock('<script type="text/javascript">
 Ext.onReady(function() {

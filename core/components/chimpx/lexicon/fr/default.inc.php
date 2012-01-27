@@ -40,6 +40,8 @@ $_lang['chimpx_help'] = 'Aide';
 // campaigns grid
 $_lang['chimpx.campaigns'] = 'Toutes vos campagnes';
 
+$_lang['chimpx.campaign'] = 'campagne';
+$_lang['chimpx.campaignss'] = 'campagnes';
 $_lang['chimpx.campaign_err_nf'] = 'Campagne non trouvée.';
 $_lang['chimpx.campaign_err_ns'] = 'Campagne non indiquée.';
 $_lang['chimpx.campaign_err_remove'] = 'Une erreur est survenue lors de la suppression de votre campagne.';
@@ -54,6 +56,8 @@ $_lang['chimpx.campaign_update'] = 'Modifier cette campagne';
 $_lang['chimpx.campaign_send_test'] = 'Tester cette campagne';
 $_lang['chimpx.campaign_send_test_email'] = 'Envoyer le test à';
 $_lang['chimpx.campaign_send_test_email_desc'] = 'Adresse e-mail à laquelle envoyer le test';
+$_lang['chimpx.campaign_status_save'] = 'Enregistrée';
+$_lang['chimpx.campaign_status_sent'] = 'Envoyée';
 $_lang['chimpx.campaign_test_sent'] = 'Le test est envoyé. Vérifiez vos e-mails!';
 $_lang['chimpx.campaign_replicate'] = 'Dupliquer cette campagne';
 $_lang['chimpx.campaign_replicate_confirm'] = 'Êtes-vous sûr de vouloir dupliquer cette campagne et ses paramètres ?';
