@@ -46,6 +46,7 @@ $modx->regClientStartupHTMLBlock('
 <script type="text/javascript">
 // <![CDATA[
 Ext.onReady(function() {
+    //MODx.add("chimpx-page-campaign");
     MODx.load({
         xtype: "chimpx-page-campaign"
         ,record: '. $modx->toJSON($record) .'
