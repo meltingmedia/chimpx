@@ -12,16 +12,15 @@ chimpx.combo.mcLists = function(config) {
         ,hiddenName : 'list_select'
         ,forceSelection: true
         ,selectOnFocus: true
-        ,fields: ['id', 'name', 'default_from_name', 'default_from_email']
+        ,fields: ['id', 'name', 'default_from_name', 'default_from_email', 'default_subject']
         ,displayField : 'name'
         ,valueField : 'id'
         ,triggerAction : 'all'
-        ,editable : true
-        ,typeAhead: true
+        /*,editable : true
+        ,typeAhead: true*/
         ,listWidth: 0
         ,blankText: _('chimpx.list_combo_blank')
         ,emptyText: _('chimpx.list_combo_empty')
-        //,allowBlank: false
         ,url: chimpx.config.connector_url
         ,baseParams: {
             action: 'mgr/list/getlist'
@@ -41,6 +40,17 @@ Ext.reg('chimpx-combo-mclists', chimpx.combo.mcLists);
  */
 chimpx.combo.mcCampaignTypes = function(config) {
     config = config || {};
+    var store = new Ext.data.SimpleStore({
+        fields : ['id', 'campaign-type', 'description']
+        ,data : [
+            ['regular', _('chimpx.campaigntype_combo_regular'), _('chimpx.campaigntype_combo_regular_desc')]
+            //,['plaintext', _('chimpx.campaigntype_combo_plaintext'), _('chimpx.campaigntype_combo_plaintext_desc')]
+            /*,['absplit', _('chimpx.campaigntype_combo_absplit')]
+            ,['rss', _('chimpx.campaigntype_combo_rss')]
+            ,['trans', _('chimpx.campaigntype_combo_trans')]
+            ,['auto', _('chimpx.campaigntype_combo_auto')]*/
+        ]
+    });
 
     Ext.applyIf(config, {
         name : 'campaign_type'
@@ -61,17 +71,7 @@ chimpx.combo.mcCampaignTypes = function(config) {
                 '<span style="font-size: 70%; font-style: italic;">{description}</span>' +
             '</div>' +
             '</tpl>'
-        ,store : new Ext.data.SimpleStore({
-            fields : ['id', 'campaign-type', 'description']
-            ,data : [
-                ['regular', _('chimpx.campaigntype_combo_regular'), _('chimpx.campaigntype_combo_regular_desc')]
-                /*,['plaintext', _('chimpx.campaigntype_combo_plaintext')]
-                ,['absplit', _('chimpx.campaigntype_combo_absplit')]
-                ,['rss', _('chimpx.campaigntype_combo_rss')]
-                ,['trans', _('chimpx.campaigntype_combo_trans')]
-                ,['auto', _('chimpx.campaigntype_combo_auto')]*/
-            ]
-        })
+        ,store : store
     });
     chimpx.combo.mcCampaignTypes.superclass.constructor.call(this, config);
 };

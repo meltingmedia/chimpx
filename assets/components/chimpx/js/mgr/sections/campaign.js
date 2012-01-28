@@ -9,21 +9,21 @@
  * @xtype chimpx-page-campaign
  */
 chimpx.page.Campaign = function(config) {
-    config = config || {};
+    config = config || {record: {}};
+    config.record = config.record || {};
 
     Ext.applyIf(config, {
         components: [{
             xtype: 'chimpx-panel-campaign'
             ,renderTo: 'chimpx-panel-campaign-div'
+            ,record: config.record
         }]
         ,buttons: [{
-            text: _('chimpx.check_mailchimp_status')
-            ,handler: this.checkStatus
-            ,disabled: true
-        },{
-            text: _('chimpx.mailchimp_account')
-            ,disabled: true
-        },{
+            text: 'Back'
+            ,handler: function() {
+                location.href = '?a='+ chimpx.action;
+            }
+        },'-',{
             text: _('chimpx_help')
             ,handler: this.mailchimpHelp
         }]

@@ -5,7 +5,9 @@
  * @xtype chimpx-panel-campaign
  */
 chimpx.panel.Campaign = function(config) {
-    config = config || {};
+    config = config || {record: {}};
+    config.record = config.record || {};
+    //console.log(config.record);
 
     Ext.apply(config, {
         cls: 'container'
@@ -22,8 +24,9 @@ chimpx.panel.Campaign = function(config) {
     //this.on('render', this._init, this);
 };
 Ext.extend(chimpx.panel.Campaign, MODx.FormPanel, {
-    // Populate the form panel content (tabs, fields…)
-    _init: function() {
+    initialized: false
+    // Populate the form panel content
+    ,_init: function() {
         this.add({
             html: '<h2>'+ _('chimpx.campaign') +'</h2>'
             ,border: false
@@ -36,12 +39,32 @@ Ext.extend(chimpx.panel.Campaign, MODx.FormPanel, {
                 ,autoHeight: true
             }
             ,border: true
-            ,items: []
+            ,items: this.getTabs()
         });
 
-        var tabs = Ext.getCmp('tabs');
-        // First tab, main layout
-        tabs.add({
+        // Load the data, if any
+        if (!this.initialized) {
+            // Pre load the campaign type
+            if (this.config.record.type) {
+                var campaign_type_field = Ext.getCmp('campaign_type');
+                campaign_type_field.setValue(this.config.record.type);
+            }
+            // Pre load the list id
+            if (this.config.record.list_id) {
+                var list_id_field = Ext.getCmp('list_id');
+                list_id_field.setValue(this.config.record.list_id);
+            }
+            // Load the rest of the campaign data
+            this.getForm().setValues(this.config.record);
+        }
+        this.fireEvent('ready');
+        this.initialized = true;
+    }
+    // Populates the main tabs
+    ,getTabs: function() {
+        var tabs = [];
+        // General tab
+        tabs.push({
             title: 'Campaign data'
             ,bodyCssClass: 'main-wrapper'
             ,layout: 'form'
@@ -60,16 +83,14 @@ Ext.extend(chimpx.panel.Campaign, MODx.FormPanel, {
                 }
                 ,items:[{
                     columnWidth: .67
-                    ,id: 'leftColumn'
                     ,layout: 'form'
                     ,defaults: {
                         msgTarget: 'under'
                         ,anchor: '100%'
                     }
-                    ,items: []
+                    ,items: this.getLeftColumn()
                 },{
                     columnWidth: .33
-                    ,id: 'rightColumn'
                     ,layout: 'form'
                     ,labelWidth: 0
                     ,border: false
@@ -78,15 +99,16 @@ Ext.extend(chimpx.panel.Campaign, MODx.FormPanel, {
                         msgTarget: 'under'
                         ,anchor: '100%'
                     }
-                    ,items: []
+                    ,items: this.getRightColumn()
                 }]
             }]
         });
-
-        //console.log(this);
-        var leftColumn = Ext.getCmp('leftColumn');
-        var rightColumn = Ext.getCmp('rightColumn');
-        leftColumn.add({
+        return tabs;
+    }
+    // General tab, left column
+    ,getLeftColumn: function() {
+        var column = [];
+        column.push({
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_subject')
             ,description: _('chimpx.campaign_subject_desc')
@@ -97,30 +119,129 @@ Ext.extend(chimpx.panel.Campaign, MODx.FormPanel, {
             ,fieldLabel: _('chimpx.campaign_title')
             ,description: _('chimpx.campaign_title_desc')
             ,name: 'title'
-        },{
+        });
+        column.push({
+            title: 'Campaign content'
+            ,layout: 'form'
+            ,collapsible: true
+            ,bodyCssClass: 'main-wrapper'
+            ,style: 'margin-top: 25px'
+            ,defaults: {
+                anchor: '100%'
+            }
+            ,items: this.buildContent()
+        });
+        return column;
+    }
+
+    ,buildContent: function() {
+        var content = [];
+        content.push({
             xtype: 'textfield'
             ,fieldLabel: _('chimpx.campaign_url')
             ,description: _('chimpx.campaign_url_desc')
             ,name: 'url'
             ,allowBlank: false
         });
+        /*content.push({
+            xtype: 'modx-tabs'
+            ,id: 'tabs'
+            ,defaults: {
+                border: false
+                ,autoHeight: true
+            }
+            //,border: true
+            ,items: this.buildContentTabs()
+        });*/
+        return content;
+    }
 
-        rightColumn.add({
+    ,buildContentTabs: function() {
+        var cTabs = [];
+        cTabs.push({
+            title: 'URL'
+            ,bodyCssClass: 'main-wrapper'
+            ,defaults: {
+                border: false
+                ,anchor: '100%'
+            }
+            ,items: [{
+                xtype: 'textfield'
+                ,fieldLabel: 'Resource ID'
+            }]
+        });
+
+        cTabs.push({
+            title: 'HTML'
+            ,bodyCssClass: 'main-wrapper'
+            ,layout: 'form'
+            ,anchor: '100%'
+            ,defaults: {
+                border: false
+                ,labelSeparator: ''
+                ,labelAlign: 'top'
+                ,msgTarget: 'under'
+            }
+            ,items: [{
+                xtype: 'textarea'
+                ,fieldLabel: 'Html'
+                ,name: 'html'
+                ,grow: true
+            }]
+        });
+
+        cTabs.push({
+            title: 'Text'
+            ,bodyCssClass: 'main-wrapper'
+            ,layout: 'form'
+            ,anchor: '100%'
+            ,defaults: {
+                border: false
+                ,labelSeparator: ''
+                ,labelAlign: 'top'
+                ,msgTarget: 'under'
+            }
+            ,items: [{
+                xtype: 'textarea'
+                ,fieldLabel: 'Text'
+                ,name: 'text'
+                ,grow: true
+            }]
+        });
+
+        if (!this.config.record.id) {
+            cTabs.push({
+                title:'Archive'
+                ,bodyCssClass:'main-wrapper'
+                ,layout:'form'
+                ,anchor:'100%'
+                ,defaults:{
+                    border:false
+                    ,labelSeparator:''
+                    ,labelAlign:'top'
+                    ,msgTarget:'under'
+                }
+                , items:[]
+            });
+        }
+        return cTabs;
+    }
+    // General tab, right column
+    ,getRightColumn: function() {
+        var column = [];
+        column.push({
             xtype: 'chimpx-combo-mclists'
+            ,id: 'list_id'
             ,fieldLabel: _('chimpx.campaign_list_select')
             ,description: _('chimpx.campaign_list_select_desc')
             ,allowBlank: false
             ,name: 'list_select'
             ,listeners: {
-                select: {
-                    fn: function(r, i) {
-                        console.log(r);
-                    }
-                    ,scope: this
-                }
+                select: this.onListSelect
             }
         },{
             xtype: 'chimpx-combo-mccampaigntype'
+            ,id: 'campaign_type'
             ,fieldLabel: _('chimpx.campaign_campaign_type')
             ,description: _('chimpx.campaign_campaign_type_desc')
             ,allowBlank: false
@@ -140,17 +261,31 @@ Ext.extend(chimpx.panel.Campaign, MODx.FormPanel, {
             ,allowBlank: false
             ,name: 'from_email'
         });
+        return column;
     }
+
     // Sets the default list data to the appropriates fields
-    ,setListDefaults: function(r, i) {
-        console.log(r);
-        //console.log(e);
+    ,onListSelect: function(e) {
+        // Selected index
+        var i = e.selectedIndex;
+        var s = e.getStore();
+        var record = s.getAt(i);
+        //console.log(record);
+        var nameValue = record.data.default_from_name;
+        var mailValue = record.data.default_from_email;
+        var subjectValue = record.data.default_subject;
         var name = Ext.getCmp('list_from_name');
         var mail = Ext.getCmp('list_from_email');
-        //console.log(name.getValue());
-        /*if (name) {
-            name.setValue(e.fields[2]);
-        }*/
+        var subject = Ext.getCmp('subject');
+        if (name) {
+            name.setValue(nameValue);
+        }
+        if (mail) {
+            mail.setValue(mailValue);
+        }
+        if (subject && subject.getValue == '' && subjectValue != '') {
+            subject.setValue(subjectValue);
+        }
     }
 });
 Ext.reg('chimpx-panel-campaign', chimpx.panel.Campaign);

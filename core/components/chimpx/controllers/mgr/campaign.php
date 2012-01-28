@@ -33,6 +33,27 @@ $create = empty($_REQUEST['id']) ? true : false;
 
 if (!$create) {
     // We are editing a campaign, load its data
+    $api = new MCAPI($modx->getOption('chimpx.apikey'), true);
+    $start = $modx->getOption('start', $_REQUEST, 0);
+    $limit = $modx->getOption('limit', $_REQUEST, 20);
+
+    // filters to apply to the query
+    $filters = array();
+    if ($_REQUEST['id']) $filters['campaign_id'] = $_REQUEST['id'];
+    //if ($status) $filters['status'] = $status;
+
+    $campaign = $api->campaigns($filters);
+    if ($api->errorCode){
+        $msg = $modx->lexicon('chimpx.error_info', array(
+            'number' => $api->errorCode,
+            'message' => $api->errorMessage,
+        ));
+        return $modx->error->failure($msg);
+    }
+    $content = $api->campaignContent($_REQUEST['id']);
+    $record = $campaign['data'][0];
+    $record['html'] = $content['html'];
+    $record['text'] = $content['text'];
 }
 
 /*$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/lists.grid.js');

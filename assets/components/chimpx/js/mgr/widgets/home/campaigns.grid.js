@@ -74,10 +74,13 @@ Ext.extend(chimpx.grid.Campaigns,MODx.grid.Grid,{
     ,getMenu: function() {
         var m = [];
         // for saved campaigns
-        if (this.menu.record.status == 'save') {
+        if (this.menu.record.status == _('chimpx.campaign_status_save')) {
             m.push({
                 text: _('chimpx.campaign_update')
-                ,handler: this.updateCampaign
+                //,handler: this.updateCampaign
+                ,handler: function() {
+                    location.href = '?a='+ chimpx.action +'&action=campaign&id='+ this.menu.record.id;
+                }
             });
             m.push('-');
             m.push({
