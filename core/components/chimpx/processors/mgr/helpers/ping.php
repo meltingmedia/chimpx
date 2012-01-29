@@ -20,7 +20,7 @@
  * @package chimpx
  */
 /**
- * Remove a MailChimp campaign.
+ * Pings MailChimp API
  *
  * @var modX $modx
  * @var chimpx $chimpx
@@ -29,10 +29,8 @@
  */
 $chimpx =& $modx->chimpx;
 
-$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : false;
-$chimpx->campaignDelete($cid);
-
-if ($chimpx->isError()){
-    return $chimpx->getError();
+$response = $chimpx->mc->ping();
+if ($response != 'Everything\'s Chimpy!') {
+    return $modx->error->failure($modx->lexicon('chimpx.ping_error', array('response' => $response)));
 }
-return $modx->error->success();
+return $modx->error->success($modx->lexicon('chimpx.ping_ok', array('response' => $response)));

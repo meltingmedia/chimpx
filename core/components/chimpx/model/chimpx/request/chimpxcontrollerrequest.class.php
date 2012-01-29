@@ -53,8 +53,27 @@ class chimpxControllerRequest extends modRequest {
         /* save page to manager object. allow custom actionVar choice for extending classes. */
         $this->action = isset($_REQUEST[$this->actionVar]) ? $_REQUEST[$this->actionVar] : $this->defaultAction;
 
-        return $this->_respond();
+        $modx =& $this->modx;
+        $chimpx =& $this->chimpx;
+        $viewHeader = include $this->chimpx->config['corePath'].'controllers/mgr/header.php';
+
+        $f = $this->chimpx->config['corePath'].'controllers/mgr/'.$this->action.'.php';
+        if (file_exists($f)) {
+            $viewOutput = include $f;
+        } else {
+            $viewOutput = 'Controller not found: '.$f;
+        }
+
+        return $viewHeader.$viewOutput;
     }
+//    public function handleRequest() {
+//        $this->loadErrorHandler();
+//
+//        /* save page to manager object. allow custom actionVar choice for extending classes. */
+//        $this->action = isset($_REQUEST[$this->actionVar]) ? $_REQUEST[$this->actionVar] : $this->defaultAction;
+//
+//        return $this->_respond();
+//    }
 
     /**
      * Prepares the MODx response to a mgr request that is being handled.

@@ -137,5 +137,11 @@ $_lang['chimpx.list_member_count'] = 'Subscribers';
 $_lang['chimpx.list_combo_blank'] = 'Choose a list';
 $_lang['chimpx.list_combo_empty'] = 'Choose a list';
 
+// MailChimp helper
+$_lang['chimpx.ping_error'] = 'Seems like something went bad on MailChimp\'s side. Here is the answer we get:<br />[[+response]]<br /><br />For more informations, you may want to check:<br /><a href="https://twitter.com/mailchimpstatus" target="_blank">@mailchimpstatus</a><br /><a href="http://status.mailchimp.com/" target="_blank">status.mailchimp.com</a>';
+$_lang['chimpx.ping_error_title'] = 'Uhoh!';
+$_lang['chimpx.ping_ok'] = '[[+response]]<br />Understand everything is fine on Mailchimp\'s side.';
+$_lang['chimpx.ping_ok_title'] = 'All good!';
+
 // MailChimp API error infos
 $_lang['chimpx.error_info'] = 'Error n°: [[+number]]<br />Message: [[+message]]';

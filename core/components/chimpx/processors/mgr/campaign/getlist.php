@@ -21,19 +21,13 @@
  */
 /**
  * Get a list of MailChimp campaigns
- * http://apidocs.mailchimp.com/1.3/campaigns.func.php
  *
  * @var modX $modx
  * @var chimpx $chimpx
  * @package chimpx
  * @subpackage processors
  */
-
-$api = new MCAPI($modx->getOption('chimpx.apikey'), true);
-//$api = $chimpx->mc;
-
-/** @var $api MCAPI */
-//$api = $chimpx->init();
+$chimpx =& $modx->chimpx;
 
 // grid pagination
 $start = $modx->getOption('start', $_REQUEST, 0);
@@ -44,22 +38,12 @@ $filters = array();
 /*if ($list_id) $filters['list_id'] = $list_id;
 if ($status) $filters['status'] = $status;*/
 
-$campaigns = $api->campaigns($filters, $start, $limit);
-if ($api->errorCode){
-    $msg = $modx->lexicon('chimpx.error_info', array(
-        'number' => $api->errorCode,
-        'message' => $api->errorMessage,
-    ));
-    return $modx->error->failure($msg);
+$campaigns = $chimpx->getCampaigns($filters, $start, $limit);
+if ($chimpx->isError()){
+    return $chimpx->getError();
 }
 
 $count = $campaigns['total'];
-$list = array();
+$list = $chimpx->displayCampaigns($campaigns);
 
-foreach ($campaigns['data'] as $campaign) {
-    $listname = $api->lists(array('list_id' => $campaign['list_id']));
-    $campaign['listname'] = $listname['data'][0]['name'];
-    $campaign['status'] = $modx->lexicon('chimpx.campaign_status_'.$campaign['status']);
-    $list[] = $campaign;
-}
 return $this->outputArray($list, $count);

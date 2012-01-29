@@ -21,24 +21,19 @@
  */
 /**
  * Send a MailChimp campaign
- * http://apidocs.mailchimp.com/1.3/campaignsendnow.func.php
  *
+ * @var modX $modx
+ * @var chimpx $chimpx
  * @package chimpx
  * @subpackage processors
  */
- 
+$chimpx =& $modx->chimpx;
 
-$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
-$api = new MCAPI($modx->getOption('chimpx.apikey'));
+$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : false;
+$chimpx->campaignSend($cid);
 
-$api->campaignSendNow($cid);
-
-if ($api->errorCode){
-    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
-    $modx->log(modX::LOG_LEVEL_INFO, $msg);
-    return $modx->error->failure($msg);
-} else {
-    $msg = $modx->lexicon('chimpx.campaign_sending');
-    $modx->log(modX::LOG_LEVEL_INFO,$msg);
-    return $modx->error->success('',$msg);
+if ($chimpx->isError()){
+    return $chimpx->getError();
 }
+$msg = $modx->lexicon('chimpx.campaign_sending');
+return $modx->error->success('', $msg);

@@ -21,11 +21,13 @@
  */
 /**
  * Update a MailChimp campaign
- * http://apidocs.mailchimp.com/1.3/campaignupdate.func.php
- * 
+ *
+ * @var modX $modx
+ * @var chimpx $chimpx
  * @package chimpx
  * @subpackage processors
  */
+$chimpx =& $modx->chimpx;
 
 if (!empty($scriptProperties['id'])) {
     $type = $scriptProperties['id'];
@@ -35,46 +37,41 @@ if (!empty($scriptProperties['id'])) {
     return $modx->error->failure($msg);
 }
 
-$api = new MCAPI($modx->getOption('chimpx.apikey'));
-
 $cid = $scriptProperties['id'];
-$name = $scriptProperties['name'];
-$value = $scriptProperties['value'];
+$chimpx->campaignUpdate($cid, $_POST);
+//$name = $scriptProperties['name'];
+//$value = $scriptProperties['value'];
+//
+////@TODO: retrieve the resource ID from the complete URL (content-url)
+//
+//$content = array();
+//
+//foreach($_POST as $name => $value) {
+//    // let's check the prefixed values (content-*…)
+//    if(substr($name,0,8) == 'content-') {
+//        // we got value for the content array
+//        if($name == 'content-url') {
+//            // we need to make an url with the ID
+//            $content['url'] = $modx->makeUrl($scriptProperties['content-url']);
+//            $name = 'content';
+//            $retval = $api->campaignUpdate($cid,$name,$content);
+//            unset($name);
+//        } else {
+//            // Nothing's implemented yet… that's a reminder for later
+//            /*$content[ltrim($name, 'content-')] = $scriptProperties[$name];
+//            $name = 'content';
+//            $retval = $api->campaignUpdate($cid,$name,$content);
+//            unset($name);*/
+//        }
+//    } else {
+//        // the values should be in the options array, so thread them normally
+//        $retval = $api->campaignUpdate($cid,$name,$value);
+//    }
+//}
 
-//@TODO: retrieve the resource ID from the complete URL (content-url)
-
-$content = array();
-
-foreach($_POST as $name => $value) {
-    // let's check the prefixed values (content-*…)
-    if(substr($name,0,8) == 'content-') {
-        // we got value for the content array
-        if($name == 'content-url') {
-            // we need to make an url with the ID
-            $content['url'] = $modx->makeUrl($scriptProperties['content-url']);
-            $name = 'content';
-            $retval = $api->campaignUpdate($cid,$name,$content);
-            unset($name);
-        } else {
-            // Nothing's implemented yet… that's a reminder for later
-            /*$content[ltrim($name, 'content-')] = $scriptProperties[$name];
-            $name = 'content';
-            $retval = $api->campaignUpdate($cid,$name,$content);
-            unset($name);*/
-        }
-    } else {
-        // the values should be in the options array, so thread them normally
-        $retval = $api->campaignUpdate($cid,$name,$value);
-    }
+if ($chimpx->isError()){
+    return $chimpx->getError();
 }
-
-
-if ($api->errorCode) {
-    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
-    $modx->log(modX::LOG_LEVEL_INFO, $msg);
-    return $modx->error->failure($msg);
-} else {
-    $msg = 'Campaign ID '. $cid .' updated.';
-    $modx->log(modX::LOG_LEVEL_INFO,$msg);
-    return $modx->error->success('',$msg);
-}
+$msg = 'Campaign ID '. $cid .' updated.';
+//$msg = $modx->lexicon('chimpx.campaign_updated', array('id' => $cid));
+return $modx->error->success('', $msg);

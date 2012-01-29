@@ -25,7 +25,7 @@
  * @package chimpx
  */
 class chimpx {
-    public  $mc = null;
+    public $mc = null;
 
     function __construct(modX &$modx, array $config = array()) {
         $this->modx =& $modx;
@@ -40,7 +40,7 @@ class chimpx {
             'jsUrl' => $assetsUrl.'js/',
             'imagesUrl' => $assetsUrl.'images/',
 
-            'connectorUrl' => $connectorUrl,
+            'connectorUrl' => $assetsUrl.'connector.php',
 
             'corePath' => $corePath,
             'modelPath' => $corePath.'model/',
@@ -48,32 +48,22 @@ class chimpx {
             'chunkSuffix' => '.chunk.tpl',
             'snippetsPath' => $corePath.'elements/snippets/',
             'processorsPath' => $corePath.'processors/',
+            'templatesPath' => $corePath.'templates/',
         ), $config);
 
         // Let's load the MailChimp API
         if (!$this->mc) {
-            //$this->modx->log(modX::LOG_LEVEL_ERROR, 'loading the mc class');
             if (!$this->modx->loadClass('mailchimp.MCAPI', $this->config['modelPath'], true, true)) {
                 $this->modx->log(modX::LOG_LEVEL_ERROR, '[chimpx] - unable to load MailChimp API');
                 return false;
             }
             $mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
-            $this->mc =& $mc;
-            //$this->modx->log(modX::LOG_LEVEL_ERROR, 'should be loaded');
+            $this->mc = $mc;
         }
 
         $this->modx->addPackage('chimpx', $this->config['modelPath']);
         $this->modx->lexicon->load('chimpx:default');
     }
-
-    /*public function getApi() {
-        if (!$this->modx->loadClass('mailchimp.MCAPI',$this->config['modelPath'],true,true)) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Chimpx] - unable to load MailChimp API class');
-            return '[Chimpx] - unable to load MailChimp API class';
-        }
-        $this->mcapi = new MCAPI($this->modx,$this->config);
-        return $this->mcapi;
-    }*/
 
     /**
      * Initializes chimpx into different contexts.
@@ -84,14 +74,14 @@ class chimpx {
     public function initialize($ctx = 'web') {
         switch ($ctx) {
             case 'mgr':
-                if (!$this->modx->loadClass('chimpx.request.chimpxControllerRequest',$this->config['modelPath'],true,true)) {
+                if (!$this->modx->loadClass('chimpxControllerRequest', $this->config['modelPath'].'chimpx/request/', true, true)) {
                     return 'Could not load controller request handler.';
                 }
                 $this->request = new chimpxControllerRequest($this);
                 return $this->request->handleRequest();
             break;
             case 'connector':
-                if (!$this->modx->loadClass('chimpx.request.chimpxConnectorRequest',$this->config['modelPath'],true,true)) {
+                if (!$this->modx->loadClass('chimpxConnectorRequest', $this->config['modelPath'].'chimpx/request/', true, true)) {
                     return 'Could not load connector request handler.';
                 }
                 $this->request = new chimpxConnectorRequest($this);
@@ -117,12 +107,12 @@ class chimpx {
      * @param array $properties The properties for the Chunk
      * @return string The processed content of the Chunk
      */
-    public function getChunk($name,array $properties = array()) {
+    public function getChunk($name, array $properties = array()) {
         $chunk = null;
         if (!isset($this->chunks[$name])) {
-            $chunk = $this->modx->getObject('modChunk',array('name' => $name),true);
+            $chunk = $this->modx->getObject('modChunk', array('name' => $name), true);
             if (empty($chunk)) {
-                $chunk = $this->_getTplChunk($name,$this->config['chunkSuffix']);
+                $chunk = $this->_getTplChunk($name, $this->config['chunkSuffix']);
                 if ($chunk == false) return false;
             }
             $this->chunks[$name] = $chunk->getContent();
@@ -143,25 +133,156 @@ class chimpx {
      * @return modChunk/boolean Returns the modChunk object if found, otherwise
      * false.
      */
-    private function _getTplChunk($name,$suffix = '.chunk.tpl') {
+    private function _getTplChunk($name, $suffix = '.chunk.tpl') {
+        /** @var $chunk modChunk */
         $chunk = false;
         $f = $this->config['chunksPath'].strtolower($name).$suffix;
         if (file_exists($f)) {
             $o = file_get_contents($f);
             $chunk = $this->modx->newObject('modChunk');
-            $chunk->set('name',$name);
+            $chunk->set('name', $name);
             $chunk->setContent($o);
         }
         return $chunk;
     }
 
-    public function init() {
-        /*if (!$this->modx->loadClass('mailchimp.MCAPI', $this->config['modelPath'], true, true)) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR, '[chimpx] - unable to load MailChimp API');
-            return false;
-        }*/
-        /*require_once $this->config['model_path'] . 'mailchimp/mcapi.class.php';
-        $this->mc = new MCAPI($this->modx->getOption('chimpx.apikey'), true);
-        return $this->mc;*/
+    /**
+     * Retrieve a list of MailChimp campaigns
+     * http://apidocs.mailchimp.com/1.3/campaigns.func.php
+     *
+     * @param array $filters
+     * @param boolean $start
+     * @param boolean $limit
+     * @return array The campaigns list
+     */
+    public function getCampaigns($filters = array(), $start = false, $limit = false) {
+        // @todo: introduce ACLs (filter some lists is the user is not allowed)
+        $campaigns = $this->mc->campaigns($filters, $start, $limit);
+        return $campaigns;
+    }
+
+    /**
+     * Prepares the data to be displayed in the manager page
+     *
+     * @param array $campaigns An of MailChimp campaigns
+     * @return array The list
+     */
+    public function displayCampaigns($campaigns = array()) {
+        $list = array();
+        foreach ($campaigns['data'] as $campaign) {
+            $listname = $this->mc->lists(array('list_id' => $campaign['list_id']));
+            $campaign['listname'] = $listname['data'][0]['name'];
+            $campaign['status'] = $this->modx->lexicon('chimpx.campaign_status_'.$campaign['status']);
+            $list[] = $campaign;
+        }
+        return $list;
+    }
+
+    /**
+     * Deletes the given campaign
+     * http://apidocs.mailchimp.com/1.3/campaigndelete.func.php
+     *
+     * @param string $id The campaign ID
+     */
+    public function campaignDelete($id) {
+        // @todo: ACLs (is user allowed to delete a campaign)
+        $this->mc->campaignDelete($id);
+    }
+
+    /**
+     * Clones the given campaign
+     * http://apidocs.mailchimp.com/1.3/campaignreplicate.func.php
+     *
+     * @param string $id The campaign ID
+     */
+    public function campaignReplicate($id) {
+        $this->mc->campaignReplicate($id);
+    }
+
+    /**
+     * Sends the given campaign
+     * http://apidocs.mailchimp.com/1.3/campaignsendnow.func.php
+     *
+     * @param string $id The campaign ID
+     */
+    public function campaignSend($id) {
+        $this->mc->campaignSendNow($id);
+    }
+
+    /**
+     * Sends a campaign test to the given addresses
+     * http://apidocs.mailchimp.com/1.3/campaignsendtest.func.php
+     *
+     * @param string $id The campaign ID
+     * @param string $to A comma separated list of emails
+     */
+    public function campaignSendtest($id, $to) {
+        $emails = array();
+        $emailList = explode(',', $to);
+        foreach ($emailList as $email) {
+            $emails[] = trim($email);
+        }
+        $this->mc->campaignSendTest($id, $emails);
+    }
+
+    /**
+     * Updates the given campaign data
+     * http://apidocs.mailchimp.com/1.3/campaignupdate.func.php
+     *
+     * @param string $id The campaign ID
+     * @param array $data An array of fields => values
+     */
+    public function campaignUpdate($id, array $data = array()) {
+        // @todo: control the $_POST data & unset unwanted ones, make sure the campaign is not already sent
+        unset ($data['id']);
+        foreach ($data as $field => $value) {
+            $this->mc->campaignUpdate($id, $field, $value);
+        }
+    }
+
+    /**
+     * Creates a new campaign
+     * http://apidocs.mailchimp.com/1.3/campaigncreate.func.php
+     *
+     * @param array $data The campaign data
+     */
+    public function campaignCreate(array $data = array()) {
+        $type = $data['campaign_type'];
+        $options = array();
+        $content = array();
+        $segmentOptions = null;
+        $typeOptions = null;
+        $this->mc->campaignCreate($type, $options, $content, $segmentOptions, $typeOptions);
+    }
+
+    /**
+     * Checks if there is any error coming from the MailChimp API
+     *
+     * @return boolean
+     */
+    public function isError() {
+        if ($this->mc->errorCode){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns error message from MailChimp API
+     * http://apidocs.mailchimp.com/api/1.3/exceptions.field.php
+     *
+     * @return array|string The error message
+     */
+    public function getError() {
+        if ($this->mc->errorCode){
+            // @todo: provide more readable error messages
+            /*$code = ltrim($this->mc->errorCode, '-');
+            $i18n = $this->modx->lexicon('chimpx_error_'. $code);*/
+            $msg = $this->modx->lexicon('chimpx.error_info', array(
+                'number' => $this->mc->errorCode,
+                'message' => $this->mc->errorMessage,
+            ));
+            return $this->modx->error->failure($msg);
+        }
     }
 }

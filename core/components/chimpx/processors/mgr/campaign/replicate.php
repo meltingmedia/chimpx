@@ -21,22 +21,18 @@
  */
 /**
  * Replicate a MailChimp campaign
- * http://apidocs.mailchimp.com/1.3/campaignreplicate.func.php
  *
+ * @var modX $modx
+ * @var chimpx $chimpx
  * @package chimpx
  * @subpackage processors
  */
+$chimpx =& $modx->chimpx;
  
-$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
+$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : false;
+$chimpx->campaignReplicate($cid);
 
-$api = new MCAPI($modx->getOption('chimpx.apikey'));
-
-$api->campaignReplicate($cid);
-
-if ($api->errorCode){
-    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
-    $modx->log(modX::LOG_LEVEL_INFO, $msg);
-    return $modx->error->failure($msg);
-} else {
-    return $modx->error->success();
+if ($chimpx->isError()){
+    return $chimpx->getError();
 }
+return $modx->error->success();

@@ -21,13 +21,13 @@
  */
 /**
  * Create a MailChimp campaign
- * http://apidocs.mailchimp.com/1.3/campaigncreate.func.php
- * 
+ *
+ * @var modX $modx
+ * @var chimpx $chimpx
  * @package chimpx
  * @subpackage processors
  */
-
-$api = new MCAPI($modx->getOption('chimpx.apikey'));
+$chimpx =& $modx->chimpx;
 
 // campaign type
 if (!empty($scriptProperties['campaign_type'])) {
@@ -105,12 +105,10 @@ $segment_opts = array();
 $type_opts = array();
 
 // Let's create the campaign
-$api->campaignCreate($type, $opts, $content, $segment_opts, $type_opts);
+//$api->campaignCreate($type, $opts, $content, $segment_opts, $type_opts);
+$chimpx->campaignCreate($_POST);
 
-if ($api->errorCode) {
-    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
-    $modx->log(modX::LOG_LEVEL_INFO, $msg);
-    return $modx->error->failure($msg);
-} else {
-    return $modx->error->success();
+if ($chimpx->isError()){
+    return $chimpx->getError();
 }
+return $modx->error->success();

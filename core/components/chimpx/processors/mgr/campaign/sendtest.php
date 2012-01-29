@@ -21,25 +21,21 @@
  */
 /**
  * Send a campaign test
- * http://apidocs.mailchimp.com/1.3/campaignsendtest.func.php
  *
+ * @var modX $modx
+ * @var chimpx $chimpx
  * @package chimpx
  * @subpackage processors
  */
+$chimpx =& $modx->chimpx;
 
-$campaignId = isset($scriptProperties['id']) ? $scriptProperties['id'] : '';
-$emails = isset($scriptProperties['test_email']) ? array($scriptProperties['test_email']) : '';
+$cid = isset($scriptProperties['id']) ? $scriptProperties['id'] : false;
+$emails = isset($scriptProperties['test_email']) ? array($scriptProperties['test_email']) : false;
 
-$api = new MCAPI($modx->getOption('chimpx.apikey'));
+$chimpx->campaignSendTest($cid, $emails);
 
-$api->campaignSendTest($campaignId, $emails);
-
-if ($api->errorCode){
-    $msg = $modx->lexicon('chimpx.error_info',array('number' => $api->errorCode, 'message' => $api->errorMessage));
-    $modx->log(modX::LOG_LEVEL_INFO, $msg);
-    return $modx->error->failure($msg);
-} else {
-    $msg = $modx->lexicon('chimpx.campaign_test_sent');
-    $modx->log(modX::LOG_LEVEL_INFO,$msg);
-    return $modx->error->success('',$msg);
+if ($chimpx->isError()){
+    return $chimpx->getError();
 }
+$msg = $modx->lexicon('chimpx.campaign_test_sent');
+return $modx->error->success('', $msg);

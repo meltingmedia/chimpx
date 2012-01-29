@@ -19,10 +19,11 @@ chimpx.page.Home = function(config) {
         ,buttons: [{
             text: _('chimpx.check_mailchimp_status')
             ,handler: this.checkStatus
-            ,disabled: true
         },{
             text: _('chimpx.mailchimp_account')
-            ,disabled: true
+            ,handler: function() {
+                location.href = '?a='+ chimpx.action + '&action=account';
+            }
         },{
             text: _('chimpx_help')
             ,handler: this.mailchimpHelp
@@ -34,7 +35,7 @@ chimpx.page.Home = function(config) {
 Ext.extend(chimpx.page.Home, MODx.Component, {
     config: {}
     ,util:{}, window:{}, panel:{}, tree:{}, form:{}, grid:{}, combo:{}, toolbar:{}, page:{}, msg:{}
-
+    // Loads MailChimp Knowledge Base
     ,mailchimpHelp: function(b) {
         var url = 'http://kb.mailchimp.com';
         if (!url) { return false; }
@@ -48,6 +49,29 @@ Ext.extend(chimpx.page.Home, MODx.Component, {
         });
         chimpx.helpWindow.show(b);
         return true;
+    }
+    // Checks MailChimp status
+    ,checkStatus: function() {
+        MODx.Ajax.request({
+            url: chimpx.config.connectorUrl
+            ,params: {
+                action: 'mgr/helpers/ping'
+            }
+            ,listeners: {
+                success: {
+                    fn: function(r) {
+                        MODx.msg.alert(_('chimpx.ping_ok_title'), r.message);
+                    }
+                    ,scope: this
+                }
+                ,failure: {
+                    fn: function(r) {
+                        MODx.msg.alert(_('chimpx.ping_error_title'), r.message);
+                    }
+                    ,scope: this
+                }
+            }
+        });
     }
 });
 Ext.reg('chimpx-page-home', chimpx.page.Home);
