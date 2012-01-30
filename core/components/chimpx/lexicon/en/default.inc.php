@@ -157,6 +157,7 @@ $_lang['chimpx.subscriber_status_subscribed'] = 'Subscribed';
 $_lang['chimpx.subscriber_status_unsubscribed'] = 'Unsubscribed';
 $_lang['chimpx.subscriber_status_cleaned'] = 'Cleaned';
 $_lang['chimpx.subscriber_status_updated'] = 'Updated';
+$_lang['chimpx.subscriber_tab_overview'] = 'Subscriber: ';
 
 // MailChimp API error infos
 $_lang['chimpx.error_info'] = 'Error n°: [[+number]]<br />Message: [[+message]]';

@@ -301,6 +301,17 @@ class chimpx {
     }
 
     /**
+     * Returns the name of the given MailChimp list ID
+     *
+     * @param string $id The list ID
+     * @return string The list name
+     */
+    public function getListName($id) {
+        $data = $this->getLists(array('list_id' => $id));
+        return $data['data'][0]['name'];
+    }
+
+    /**
      * Returns a list of merge tags for a given MailChimp list
      * http://apidocs.mailchimp.com/api/1.3/listmergevars.func.php
      *
@@ -404,6 +415,38 @@ class chimpx {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns a list of members, & their info, for the specified MailChimp list
+     * http://apidocs.mailchimp.com/api/1.3/listmemberinfo.func.php
+     *
+     * @param string $list The list ID from which grabbing the member's details
+     * @param string $mail The member email address
+     * @return array The members details
+     */
+    public function listMemberInfo($list, $mail) {
+        $members = $this->mc->listMemberInfo($list, $mail);
+        return $members;
+    }
+
+    /**
+     * Prepares the member(s) infos to be used in the MODX manager
+     *
+     * @param array $data The member(s) info retrieved from MailChimp API
+     * @return array The member(s) info
+     */
+    public function displayMemberInfo(array $data) {
+        $output = array();
+        foreach ($data['data'] as $member) {
+            if ($this->isModUser($member['email'])) {
+                $user = $this->isModUser($member['email'], true);
+                $member['moduser'] = $user['moduser'];
+                $member['moduserid'] = $user['moduserid'];
+            }
+            $output[] = $member;
+        }
+        return $output;
     }
 
     /**

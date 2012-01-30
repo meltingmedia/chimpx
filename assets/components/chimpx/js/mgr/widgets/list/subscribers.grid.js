@@ -48,11 +48,17 @@ Ext.extend(chimpx.grid.Subscribers, MODx.grid.Grid, {
     // Grid menu
     getMenu: function() {
         var m = [];
+        m.push({
+            text: 'MailChimp profile'
+            ,handler: function() {
+                location.href = '?a='+ chimpx.action +'&action=subscriber&id='+ this.menu.record.email +'&list='+ this.config.list;
+            }
+        });
         // If modUser is found, display a menu to go to the modUser update page
         if (this.menu.record.moduserid) {
             // @todo: i18n
             m.push({
-                text: 'View the member profile'
+                text: 'View the MODX profile'
                 ,handler: function() {
                     location.href = '?a='+ MODx.action['security/user/update'] +'&id='+ this.menu.record.moduserid
                 }
