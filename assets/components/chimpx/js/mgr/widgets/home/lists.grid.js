@@ -13,7 +13,7 @@ chimpx.grid.Lists = function(config) {
         ,baseParams: {
             action: 'mgr/list/getlist'
         }
-        ,fields: ['id', 'web_id', 'name', 'date_created', 'member_count', 'stats']
+        ,fields: ['id', 'web_id', 'name', 'date_created', 'stats-member_count']
         ,autoHeight: true
         ,paging: true
         ,remoteSort: true
@@ -26,7 +26,7 @@ chimpx.grid.Lists = function(config) {
             ,dataIndex: 'name'
         },{
             header: _('chimpx.list_member_count')
-            ,dataIndex: 'member_count'
+            ,dataIndex: 'stats-member_count'
             ,width: 50
         },{
             header: _('chimpx.list_date_created')
@@ -36,5 +36,18 @@ chimpx.grid.Lists = function(config) {
     });
     chimpx.grid.Lists.superclass.constructor.call(this, config);
 };
-Ext.extend(chimpx.grid.Lists, MODx.grid.Grid);
+Ext.extend(chimpx.grid.Lists, MODx.grid.Grid, {
+    // Generates the grid menu
+    getMenu: function() {
+        var menu = [];
+        menu.push({
+            text: 'View'
+            ,handler: function() {
+                //console.log(this.menu.record);
+                location.href = '?a='+ chimpx.action +'&action=list&id='+ this.menu.record.id;
+            }
+        });
+        return menu;
+    }
+});
 Ext.reg('chimpx-grid-lists', chimpx.grid.Lists);

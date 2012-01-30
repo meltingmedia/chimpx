@@ -20,27 +20,22 @@
  * @package chimpx
  */
 /**
- * Get a list of MailChimp lists
+ * Get a list of merge vars for a given MailChimp lists
  *
  * @var modX $modx
  * @var chimpx $chimpx
+ * @var array $scriptProperties
  * @package chimpx
  * @subpackage processors
  */
 $chimpx =& $modx->chimpx;
 
-$start = $modx->getOption('start', $_REQUEST, 0);
-$limit = $modx->getOption('limit', $_REQUEST, 20);
+$lid = $scriptProperties['list'];
 
-// filters to apply to the query
-$filters = array();
-
-$lists = $chimpx->getLists($filters, $start, $limit);
+$mergeVars = $chimpx->listMergeVars($lid);
+$count = count($mergeVars);
 if ($chimpx->isError()){
     return $chimpx->getError();
 }
 
-$count = $lists['total'];
-$output = $chimpx->displayLists($lists);
-
-return $this->outputArray($output, $count);
+return $this->outputArray($mergeVars, $count);

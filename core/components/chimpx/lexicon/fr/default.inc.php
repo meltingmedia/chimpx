@@ -132,6 +132,10 @@ $_lang['chimpx.list_email_type_option'] = 'HTML + texte';
 $_lang['chimpx.list_use_awesomebar'] = 'Awesome Bar';
 $_lang['chimpx.list_list_rating'] = 'Classement';
 $_lang['chimpx.list_member_count'] = 'Inscrits';
+$_lang['chimpx.list_overview'] = 'Vue d\'ensemble de la liste : ';
+$_lang['chimpx.list_tab_details'] = 'Informations';
+$_lang['chimpx.list_tab_mergevars'] = 'Merge tags';
+$_lang['chimpx.list_tab_mergevars_desc'] = 'Voici la liste des merge tags de votre liste MailChimp, comprenant leurs noms, tags et configuration requise';
 
 // lists combo box
 $_lang['chimpx.list_combo_blank'] = 'Choisissez votre liste';

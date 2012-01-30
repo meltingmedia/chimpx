@@ -20,27 +20,37 @@
  * @package chimpx
  */
 /**
- * Get a list of MailChimp lists
+ * Loads the list details page.
+ * http://apidocs.mailchimp.com/api/1.3/lists.func.php
  *
  * @var modX $modx
  * @var chimpx $chimpx
  * @package chimpx
- * @subpackage processors
+ * @subpackage controllers
  */
-$chimpx =& $modx->chimpx;
-
-$start = $modx->getOption('start', $_REQUEST, 0);
-$limit = $modx->getOption('limit', $_REQUEST, 20);
-
-// filters to apply to the query
+// @todo: make use of ACLs
+$cid = $modx->getOption('id', $_GET, false);
 $filters = array();
+$filters['list_id'] = $cid;
 
-$lists = $chimpx->getLists($filters, $start, $limit);
-if ($chimpx->isError()){
-    return $chimpx->getError();
-}
+$data = $chimpx->getLists($filters);
+$record = $chimpx->displayLists($data, true);
 
-$count = $lists['total'];
-$output = $chimpx->displayLists($lists);
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/list/mergevars.grid.js');
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/list/list.panel.js');
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/sections/list.js');
 
-return $this->outputArray($output, $count);
+$modx->regClientStartupHTMLBlock('
+<script type="text/javascript">
+// <![CDATA[
+Ext.onReady(function() {
+    MODx.load({
+        xtype: "chimpx-page-list"
+        ,record: '. $modx->toJSON($record[0]) .'
+    });
+});
+// ]]>
+</script>');
+
+$output = '<div id="chimpx-panel-list-div"></div>';
+return $output;

@@ -256,6 +256,62 @@ class chimpx {
     }
 
     /**
+     * Returns an array of lists attached to the MailChimp account
+     * http://apidocs.mailchimp.com/1.3/lists.func.php
+     *
+     * @param array $filters An array of options to filter the lists
+     * @param null||int $start
+     * @param null||int $limit
+     * @return array The list(s) details
+     */
+    public function getLists(array $filters = array(), $start = null, $limit = null) {
+        $lists = $this->mc->lists($filters, $start, $limit);
+        return $lists;
+    }
+
+    /**
+     * Prepares the lists data to be used in the MODX manager
+     *
+     * @param array $data The list(s) data from MailChimp API
+     * @return array The list(s) details
+     */
+    public function displayLists(array $data = array(), $mergeTags = false) {
+        $output = array();
+        foreach ($data['data'] as $listData) {
+            $stats = $listData['stats'];
+            unset ($listData['stats']);
+            // Threat the stats data (prefixed with "stats-")
+            foreach ($stats as $key => $value) {
+                $listData['stats-'. $key] = $value;
+            }
+            // Threat the merge tags
+            if ($mergeTags) {
+                $listData['mergevars'] = $this->listMergeVars($listData['id']);
+            }
+            $output[] = $listData;
+        }
+        return $output;
+    }
+
+    /**
+     * Returns a list of merge tags for a given MailChimp list
+     * http://apidocs.mailchimp.com/api/1.3/listmergevars.func.php
+     *
+     * @param string $id The list ID
+     * @return array The merge tags list
+     */
+    public function listMergeVars($id) {
+        $output = $this->mc->listMergeVars($id);
+        //if (!$output['helptext']) $output['helptext'] = 'nothing given';
+        /*$output = array();
+        foreach ($list as $tag) {
+            if (!$tag['helptext']) $tag['helptext'] = 'nothing given';
+            $output[] = $tag;
+        }*/
+        return $output;
+    }
+
+    /**
      * Checks if there is any error coming from the MailChimp API
      *
      * @return boolean
