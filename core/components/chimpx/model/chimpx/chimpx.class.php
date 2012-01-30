@@ -371,10 +371,12 @@ class chimpx {
         foreach ($data as $subscriber) {
             $inDb = $this->isModUser($subscriber['email']);
             if ($inDb) {
-                $subscriber['moduser'] = $this->isModUser($subscriber['email'], true);
+                $userData = $this->isModUser($subscriber['email'], true);
+                $subscriber['moduser'] = $userData['moduser'];
+                $subscriber['moduserid'] = $userData['moduserid'];
             } else {
                 // @todo: i18n
-                $subscriber['moduser'] = 'not found in your user list';
+                $subscriber['moduser'] = '';
             }
             $output[] = $subscriber;
         }
@@ -395,7 +397,9 @@ class chimpx {
             if ($return) {
                 /** @var $user modUser */
                 $user = $profile->getOne('User');
-                return $user->get('username');
+                $data['moduser'] = $user->get('username');
+                $data['moduserid'] = $user->get('id');
+                return $data;
             }
             return true;
         }

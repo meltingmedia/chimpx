@@ -14,7 +14,7 @@ chimpx.grid.Subscribers = function(config) {
             action: 'mgr/list/getsubscribers'
             ,list: config.list
         }
-        ,fields: ['email', 'moduser']
+        ,fields: ['email', 'moduser', 'moduserid']
         ,autoHeight: true
         ,remoteSort: true
         ,paging: true
@@ -44,5 +44,22 @@ chimpx.grid.Subscribers = function(config) {
 };
 
 // grid menus + functions
-Ext.extend(chimpx.grid.Subscribers, MODx.grid.Grid);
+Ext.extend(chimpx.grid.Subscribers, MODx.grid.Grid, {
+    // Grid menu
+    getMenu: function() {
+        var m = [];
+        // If modUser is found, display a menu to go to the modUser update page
+        if (this.menu.record.moduserid) {
+            // @todo: i18n
+            m.push({
+                text: 'View the member profile'
+                ,handler: function() {
+                    location.href = '?a='+ MODx.action['security/user/update'] +'&id='+ this.menu.record.moduserid
+                }
+            });
+            // @todo: offer a way to sync user data
+        }
+        this.addContextMenuItem(m);
+    }
+});
 Ext.reg('chimpx-grid-list-subscribers', chimpx.grid.Subscribers);
