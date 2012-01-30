@@ -136,6 +136,11 @@ $_lang['chimpx.list_overview'] = 'Vue d\'ensemble de la liste : ';
 $_lang['chimpx.list_tab_details'] = 'Informations';
 $_lang['chimpx.list_tab_mergevars'] = 'Merge tags';
 $_lang['chimpx.list_tab_mergevars_desc'] = 'Voici la liste des merge tags de votre liste MailChimp, comprenant leurs noms, tags et configuration requise';
+$_lang['chimpx.list_tab_subscribers'] = 'Abonnés';
+$_lang['chimpx.list_tab_subscribers_desc'] = 'Liste des personnes abonnées à cette liste MailChimp';
+
+$_lang["chimpx.mergevar_create"] = 'Créer un nouveau merge tag';
+$_lang["chimpx.mergevar_update"] = 'Éditer le merge tag sélectionné';
 
 // lists combo box
 $_lang['chimpx.list_combo_blank'] = 'Choisissez votre liste';
@@ -146,6 +151,12 @@ $_lang['chimpx.ping_error'] = 'Il semblerait que quelquechose aille mal du côt�
 $_lang['chimpx.ping_error_title'] = 'Uhoh!';
 $_lang['chimpx.ping_ok'] = '[[+response]]<br />Comprenez que tout va bien du côté de Mailchimp.';
 $_lang['chimpx.ping_ok_title'] = 'Tout roule!';
+
+// Subscribers
+$_lang['chimpx.subscriber_status_subscribed'] = 'Inscrits';
+$_lang['chimpx.subscriber_status_unsubscribed'] = 'Désinscrits';
+$_lang['chimpx.subscriber_status_cleaned'] = 'Nettoyés';
+$_lang['chimpx.subscriber_status_updated'] = 'Mis à jour';
 
 // MailChimp API error infos
 $_lang['chimpx.error_info'] = 'Erreur n°: [[+number]]<br />Message: [[+message]]';

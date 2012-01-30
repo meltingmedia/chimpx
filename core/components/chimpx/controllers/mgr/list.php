@@ -34,8 +34,11 @@ $filters = array();
 $filters['list_id'] = $cid;
 
 $data = $chimpx->getLists($filters);
-$record = $chimpx->displayLists($data, true);
+$record = $chimpx->displayLists($data, true, true);
 
+if ($record[0]['locations'] && count($record[0]['locations']) >= 1) $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/list/locations.grid.js');
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/core/chimpx.combos.js');
+$modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/list/subscribers.grid.js');
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/list/mergevars.grid.js');
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/widgets/list/list.panel.js');
 $modx->regClientStartupScript($chimpx->config['jsUrl'].'mgr/sections/list.js');

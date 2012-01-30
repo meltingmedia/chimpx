@@ -33,7 +33,7 @@ Ext.extend(chimpx.combo.mcLists, MODx.combo.ComboBox);
 Ext.reg('chimpx-combo-mclists', chimpx.combo.mcLists);
 
 /**
- * @class mcCampaignTypes
+ * @class chimpx.combo.mcCampaignTypes
  * @extends MODx.combo.ComboBox
  * @param config
  * @xtype chimpx-combo-mccampaigntype
@@ -77,3 +77,39 @@ chimpx.combo.mcCampaignTypes = function(config) {
 };
 Ext.extend(chimpx.combo.mcCampaignTypes, MODx.combo.ComboBox);
 Ext.reg('chimpx-combo-mccampaigntype', chimpx.combo.mcCampaignTypes);
+
+/**
+ * @class chimpx.combo.subscribersStatus
+ * @extends MODx.combo.ComboBox
+ * @param config
+ * @xtype chimpx-combo-subscribers-status
+ */
+chimpx.combo.subscribersStatus = function(config) {
+    config = config || {};
+    var store = new Ext.data.SimpleStore({
+        fields : ['value', 'display']
+        ,data : [
+            ['subscribed', _('chimpx.subscriber_status_subscribed')]
+            ,['unsubscribed', _('chimpx.subscriber_status_unsubscribed')]
+            ,['cleaned', _('chimpx.subscriber_status_cleaned')]
+            ,['updated', _('chimpx.subscriber_status_updated')]
+        ]
+    });
+
+    Ext.applyIf(config, {
+        name : 'subscribers_status'
+        ,hiddenName : 'subscribers_status'
+        ,forceSelection: true
+        ,selectOnFocus: true
+        ,displayField : 'display'
+        ,valueField : 'value'
+        ,triggerAction : 'all'
+        ,mode : 'local'
+        ,listWidth: 0
+        ,editable: false
+        ,store : store
+    });
+    chimpx.combo.subscribersStatus.superclass.constructor.call(this, config);
+};
+Ext.extend(chimpx.combo.subscribersStatus, MODx.combo.ComboBox);
+Ext.reg('chimpx-combo-subscribers-status', chimpx.combo.subscribersStatus);

@@ -20,12 +20,10 @@ chimpx.grid.MergeVars = function(config) {
             ,list: config.list
         }
         ,plugins: this.exp
-        ,fields: ['name', 'req', 'field_type', 'public', 'show', 'order', 'default', 'size', 'tag', 'choices'/*, 'helptext'*/]
+        ,fields: ['name', 'req', 'required', 'field_type', 'public', 'show', 'order', 'default', 'size', 'tag', 'choices', 'helptext']
         ,autoHeight: true
         //,paging: true
         ,remoteSort: true
-        ,singleText: _('chimpx.campaign')
-        ,pluralText: _('chimpx.mergevars')
         ,columns: [/*this.exp, */{
             header: 'Name'
             ,dataIndex: 'name'
@@ -34,10 +32,10 @@ chimpx.grid.MergeVars = function(config) {
             ,dataIndex: 'tag'
         },{
             header: 'Required'
-            ,dataIndex: 'req'
+            ,dataIndex: 'required'
         }]
         ,tbar: [{
-            text: _('chimpx.campaign_create')
+            text: _('chimpx.mergevar_create')
             ,handler: this.createCampaign
             ,scope: this
             ,disabled: true

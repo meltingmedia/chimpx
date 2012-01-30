@@ -124,6 +124,7 @@ class chimpx {
         $chunk->setCacheable(false);
         return $chunk->process($properties);
     }
+
     /**
      * Returns a modChunk object from a template file.
      *
@@ -273,9 +274,11 @@ class chimpx {
      * Prepares the lists data to be used in the MODX manager
      *
      * @param array $data The list(s) data from MailChimp API
+     * @param boolean $mergeTags Whether or not to include the list merge tags
+     * @param boolean $location Whether or not to include list's subscribers locations
      * @return array The list(s) details
      */
-    public function displayLists(array $data = array(), $mergeTags = false) {
+    public function displayLists(array $data = array(), $mergeTags = false, $location = false) {
         $output = array();
         foreach ($data['data'] as $listData) {
             $stats = $listData['stats'];
@@ -287,6 +290,10 @@ class chimpx {
             // Threat the merge tags
             if ($mergeTags) {
                 $listData['mergevars'] = $this->listMergeVars($listData['id']);
+            }
+            // Threat subscribers locations
+            if ($location) {
+                $listData['locations'] = $this->listLocations($listData['id']);
             }
             $output[] = $listData;
         }
@@ -301,14 +308,110 @@ class chimpx {
      * @return array The merge tags list
      */
     public function listMergeVars($id) {
-        $output = $this->mc->listMergeVars($id);
-        //if (!$output['helptext']) $output['helptext'] = 'nothing given';
-        /*$output = array();
-        foreach ($list as $tag) {
-            if (!$tag['helptext']) $tag['helptext'] = 'nothing given';
+        $merge = $this->mc->listMergeVars($id);
+        $output = array();
+        foreach ($merge as $tag) {
+            /*if ($tag['helptext'] === null) {
+                // @todo: i18n
+                $tag['helptext'] = 'not defined';
+            }*/
+
+            if ($tag['req']) {
+                $tag['required'] = $this->modx->lexicon('yes');
+            } else {
+                $tag['required'] = $this->modx->lexicon('no');
+            }
             $output[] = $tag;
-        }*/
+        }
+
         return $output;
+    }
+
+    /**
+     * Creates a new merge to for a given MailChimp list
+     * http://apidocs.mailchimp.com/api/1.3/listmergevaradd.func.php
+     *
+     * @param array $data The merge tag data
+     * @return boolean Whether of not the action went fine
+     */
+    public function listMergeVarAdd(array $data = array()) {
+        $id = $data['id'];
+        $tag = $data['tag'];
+        $name = $data['name'];
+        $options = $data['options'];
+        $response = $this->mc->listMergeVarAdd($id, $tag, $name, $options);
+        return $response;
+    }
+
+    /**
+     * Returns a list of members of the given MailChimp list
+     * http://apidocs.mailchimp.com/api/1.3/listmembers.func.php
+     *
+     * @param string $id The list ID to grab members from
+     * @param array $params An array of options to filter the members
+     * @param null||int $start
+     * @param null||int $limit
+     * @return array The list of members found
+     */
+    public function listMembers($id, array $params = array(), $start = null, $limit = null) {
+        $status = $params['status'];
+        $since = $params['since'];
+        $subscribers = $this->mc->listMembers($id, $status, $since, $start, $limit);
+        return $subscribers;
+    }
+
+    /**
+     * Prepares the members list to be used in the MODX manager
+     *
+     * @param array $data
+     * @return array The list of members
+     */
+    public function displayMembers(array $data) {
+        $output = array();
+        foreach ($data as $subscriber) {
+            $inDb = $this->isModUser($subscriber['email']);
+            if ($inDb) {
+                $subscriber['moduser'] = $this->isModUser($subscriber['email'], true);
+            } else {
+                // @todo: i18n
+                $subscriber['moduser'] = 'not found in your user list';
+            }
+            $output[] = $subscriber;
+        }
+        return $output;
+    }
+
+    /**
+     * Checks if a modUser is found using the same email address
+     *
+     * @param string $mail The user email address to look for
+     * @param boolean $return Whether or not to return the modUser username if a match if found
+     * @return boolean|mixed Whether true/false if a matching modUser is found, or the user username if found
+     */
+    public function isModUser($mail, $return = false) {
+        /** @var $profile modUserProfile */
+        $profile = $this->modx->getObject('modUserProfile', array('email' => $mail));
+        if ($profile) {
+            if ($return) {
+                /** @var $user modUser */
+                $user = $profile->getOne('User');
+                return $user->get('username');
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Retrieves a list of subscribers locations for the given MailChimp list
+     * http://apidocs.mailchimp.com/api/1.3/listlocations.func.php
+     *
+     * @param string $id The list ID to retrieve subscribers' locations from
+     * @return array The locations
+     */
+    public function listLocations($id) {
+        $locations = $this->mc->listLocations($id);
+        return $locations;
     }
 
     /**

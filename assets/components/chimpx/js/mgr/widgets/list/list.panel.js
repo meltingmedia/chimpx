@@ -6,7 +6,7 @@
  */
 chimpx.panel.List = function(config) {
     config = config || {};
-    console.log(config.record);
+    //console.log(config.record);
 
     Ext.applyIf(config, {
         id: 'chimpx-panel-list'
@@ -43,6 +43,10 @@ Ext.extend(chimpx.panel.List, MODx.FormPanel, {
 
         // Load the data, if any
         if (!this.initialized) {
+            var subsCombo = Ext.getCmp('subscribers-status');
+            if (subsCombo) {
+                subsCombo.setValue('subscribed');
+            }
             this.getForm().setValues(this.config.record);
         }
         this.fireEvent('ready');
@@ -90,7 +94,25 @@ Ext.extend(chimpx.panel.List, MODx.FormPanel, {
                 }]
             }]
         });
-        if (this.config.record.mergevars.length >= 1) {
+        // Subscribers
+        tabs.push({
+            title: _('chimpx.list_tab_subscribers')
+            ,defaults: {
+                border: false
+            }
+            ,items: [{
+                html: _('chimpx.list_tab_subscribers_desc')
+                ,border: false
+                ,bodyCssClass: 'panel-desc'
+            },{
+                xtype: 'chimpx-grid-list-subscribers'
+                ,preventRender: true
+                ,cls: 'main-wrapper'
+                ,list: this.config.record.id
+            }]
+        });
+        // Merge tags
+        if (this.config.record.mergevars && this.config.record.mergevars.length >= 1) {
             tabs.push({
                 title: _('chimpx.list_tab_mergevars')
                 ,defaults: {
@@ -102,7 +124,6 @@ Ext.extend(chimpx.panel.List, MODx.FormPanel, {
                     ,bodyCssClass: 'panel-desc'
                 },{
                     xtype: 'chimpx-grid-list-mergevars'
-                    //,record: this.config.record.mergevars
                     ,preventRender: true
                     ,cls: 'main-wrapper'
                     ,list: this.config.record.id
@@ -118,12 +139,35 @@ Ext.extend(chimpx.panel.List, MODx.FormPanel, {
             xtype: 'statictextfield'
             ,fieldLabel: _('chimpx.list_name')
             ,name: 'name'
+        },{
+            xtype: 'statictextfield'
+            ,fieldLabel: _('chimpx.list_id')
+            ,name: 'id'
         });
+        // Subscribers locations
+        if (this.config.record.locations && this.config.record.locations.length >= 1) {
+            data.push({
+                title: 'Subscribers locations'
+                ,layout: 'form'
+                ,collapsible: false
+                ,bodyCssClass: 'main-wrapper'
+                ,style: 'margin-top: 25px'
+                ,defaults: {
+                    anchor: '100%'
+                }
+                ,items: [{
+                    xtype: 'chimpx-grid-list-locations'
+                    ,preventRender: true
+                    ,list: this.config.record.id
+                }]
+            });
+        }
         return data;
     }
     //
     ,buildRightSummary: function() {
         var data = [];
+        // Stats overview
         data.push({
             xtype: 'statictextfield'
             ,fieldLabel: _('chimpx.list_member_count')
@@ -141,10 +185,22 @@ Ext.extend(chimpx.panel.List, MODx.FormPanel, {
             ,fieldLabel: 'Campaign count'
             ,dataIndex: 'stats-campaign_count'
         });
+        // List modules
+        var modulesItems = [];
+        var modules = this.config.record.modules;
+        Ext.each(modules, function(k, i) {
+            modulesItems.push({
+                html: (k == 'SocialPro') ? '<span>'+ k +' <a href="https://mailchimp.com/features/social-pro/" target="_blank">Read more</a></span>' : '<span>'+ k +'</span>'
+            });
+        });
         data.push({
-            html: '<hr />'
-        },{
-            html: '<h3>Actived modules</h3>'
+            xtype: 'fieldset'
+            ,fieldLabel: 'Actived modules'
+            ,items: modulesItems
+            ,defaults: {
+                labelSeparator: ''
+                ,border: false
+            }
         });
         return data;
     }
