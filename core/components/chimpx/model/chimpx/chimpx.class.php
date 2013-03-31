@@ -270,6 +270,7 @@ class chimpx {
      * @return array The list(s) details
      */
     public function getLists(array $filters = array(), $start = null, $limit = null) {
+        $limit = $limit > 100 ? 100 : $limit;
         $lists = $this->mc->lists($filters, $start, $limit);
         return $lists;
     }
