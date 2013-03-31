@@ -26,6 +26,8 @@
  */
 class chimpx {
     public $mc = null;
+    public $request;
+
 
     function __construct(modX &$modx, array $config = array()) {
         $this->modx =& $modx;
@@ -61,8 +63,9 @@ class chimpx {
             $this->mc = $mc;
         }
 
-        $this->modx->addPackage('chimpx', $this->config['modelPath']);
+        @$this->modx->addPackage('chimpx', $this->config['modelPath'], 'modx_');
         $this->modx->lexicon->load('chimpx:default');
+        return true;
     }
 
     /**
@@ -72,6 +75,7 @@ class chimpx {
      * @param string $ctx The context to load. Defaults to web.
      */
     public function initialize($ctx = 'web') {
+
         switch ($ctx) {
             case 'mgr':
                 if (!$this->modx->loadClass('chimpxControllerRequest', $this->config['modelPath'].'chimpx/request/', true, true)) {
@@ -248,7 +252,7 @@ class chimpx {
      * @param array $data The campaign data
      */
     public function campaignCreate(array $data = array()) {
-        $type = $data['campaign_type'];
+        $type = isset($data['campaign_type'])? $data['campaign_type'] : 'regular';
         $options = array();
         $content = array();
         $segmentOptions = null;
@@ -266,6 +270,7 @@ class chimpx {
      * @return array The list(s) details
      */
     public function getLists(array $filters = array(), $start = null, $limit = null) {
+        $limit = $limit > 100 ? 100 : $limit;
         $lists = $this->mc->lists($filters, $start, $limit);
         return $lists;
     }

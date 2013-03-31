@@ -22,6 +22,7 @@
 /**
  * @package chimpx
  * @subpackage controllers
+ * @var $modx modX
  */
 require_once dirname(dirname(__FILE__)).'/model/chimpx/chimpx.class.php';
 $chimpx = new chimpx($modx);
