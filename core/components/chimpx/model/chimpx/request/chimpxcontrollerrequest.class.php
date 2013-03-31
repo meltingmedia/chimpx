@@ -35,6 +35,7 @@ class chimpxControllerRequest extends modRequest {
     public $chimpx = null;
     public $actionVar = 'action';
     public $defaultAction = 'home';
+    public $action;
 
     function __construct(chimpx &$chimpx) {
         parent :: __construct($chimpx->modx);
